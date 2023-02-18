@@ -132,7 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onChanged: (value) => _firstnameMember = value,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'กรอกชื่อจริง!';
+                              return 'กรุณากรอกชื่อจริง !';
                             }
                             return null;
                           },
@@ -178,7 +178,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onChanged: (value) => _lastnameMember = value,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'กรอกนามสกุล';
+                              return 'กรุณากรอกนามสกุล !';
                             }
                             return null;
                           },
@@ -210,6 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontFamily: 'NotoSansThai')),
                       Expanded(
                         child: TextFormField(
+                            keyboardType: TextInputType.number,
                             cursorColor: Color.fromARGB(255, 0, 0, 0),
                             style: TextStyle(
                               color: Color.fromARGB(255, 0, 0, 0),
@@ -224,11 +225,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onChanged: (value) => _tellMember = value,
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
-                                return 'กรุณากรอกเบอร์โทรศัพท์';
+                                return 'กรุณากรอกเบอร์โทรศัพท์ !';
                               } else if (value[0] != "0") {
-                                return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง';
+                                return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง !';
                               } else if (value.length != 10) {
-                                return 'จำนวนเบอร์โทรศัพท์ไม่ถูกต้อง';
+                                return 'จำนวนเบอร์โทรศัพท์ไม่ถูกต้อง !';
                               }
                               return null;
                             })),
@@ -273,10 +274,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onChanged: (value) => _usernameMember = value,
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
-                              return 'กรุณากรอกชื่อผู้ใช้';
+                              return 'กรุณากรอกชื่อผู้ใช้ !';
                             } else if (!RegExp(r'^[A-Za-z0-9_.]+$')
                                 .hasMatch(value)) {
-                              return 'รูปแบบชื่อผู้ใช้ไม่ถูกต้อง ต้องเป็นภาษาอังกฤษเท่านั้น';
+                              return 'ชื่อผู้ใช้ต้องเป็นภาษาอังกฤษเท่านั้น !';
                             }
                             return null;
                           }),
@@ -322,9 +323,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onChanged: (value) => _passwordMember = value,
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
-                              return 'กรุณากรอกรหัสผ่าน';
+                              return 'กรุณากรอกรหัสผ่าน !';
                             } else if (value.length < 8) {
-                              return 'รหัสผ่านขั้นต่ำ 8 ตัวอักษร';
+                              return 'รหัสผ่านขั้นต่ำ 8 ตัวอักษร !';
                             }
                             return null;
                           }),
@@ -380,10 +381,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _passwordMember);
               print(dataUser);
               Navigator.push(context(), MaterialPageRoute(builder: (context) {
-                return IndexScreen(
-                  title: Text(""),
-                  data: null,
-                );
+                return LoginScreen();
               }));
             }
           },

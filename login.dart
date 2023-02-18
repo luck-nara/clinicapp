@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    doLogin();
   }
 
   @override
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: 25,
                             fontFamily: 'NotoSansThai'),
                       )
                     ]),
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                            fontSize: 20,
                             fontFamily: 'NotoSansThai'),
                       )
                     ]),
@@ -139,21 +140,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 20,
                               fontFamily: 'NotoSansThai'),
                         ),
-                        Positioned(
-                            left: 59,
-                            top: 129,
-                            child: Container(
-                              width: 230,
-                              child: TextField(
-                                onChanged: (value) => _usernameMember = value,
-                                controller: _ctrlUsernameMember,
-                                decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //hintText: 'ชื่อผู้ใช้',
-                                  hintStyle: TextStyle(color: hintText),
-                                ),
-                              ),
-                            )),
+                        Container(
+                          width: 230,
+                          child: TextField(
+                            onChanged: (value) => _usernameMember = value,
+                            controller: _ctrlUsernameMember,
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(),
+                              //hintText: 'ชื่อผู้ใช้',
+                              hintStyle: TextStyle(color: hintText),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                     SizedBox(
@@ -171,23 +169,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 20,
                               fontFamily: 'NotoSansThai'),
                         ),
-                        Positioned(
-                            left: 59,
-                            top: 229,
-                            child: Container(
-                              width: 230,
-                              child: TextField(
-                                onChanged: (value) =>
-                                    _passwordMember = value.trim(),
-                                obscureText: true,
-                                controller: _ctrlPasswordMember,
-                                decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  // hintText: 'รหัสผ่าน',
-                                  hintStyle: TextStyle(color: hintText),
-                                ),
-                              ),
-                            )),
+                        Container(
+                          width: 230,
+                          child: TextField(
+                            onChanged: (value) =>
+                                _passwordMember = value.trim(),
+                            obscureText: true,
+                            controller: _ctrlPasswordMember,
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(),
+                              // hintText: 'รหัสผ่าน',
+                              hintStyle: TextStyle(color: hintText),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ]),
@@ -196,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 20,
               ),
-              loginButton(),
+              loginButton(context),
               regiterForm(context),
             ],
           ),
@@ -241,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget loginButton() => Container(
+  Widget loginButton(BuildContext context) => Container(
         child: AnimatedButton(
           width: 350.0,
           height: 50,
@@ -252,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _passwordMember == null ||
                 _passwordMember.isEmpty) {
               showDialog(
-                  context: context(),
+                  context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('กรุณากรอกข้อมูลให้ครบถ้วน ! ',
@@ -280,14 +275,39 @@ class _LoginScreenState extends State<LoginScreen> {
               final dataUser =
                   await api.doLogin(_usernameMember, _passwordMember);
               print(dataUser);
-              if (dataUser != null) {
-                User.userData = dataUser["username_member"];
+              User.userData = dataUser["username_member"];
+              if (dataUser["message"] == "ไม่สำเร็จ") {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง ! ',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontFamily: 'NotoSansThai')),
+                        actions: [
+                          ElevatedButton(
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.green),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('เข้าใจเเล้ว',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontFamily: 'NotoSansThai')),
+                          )
+                        ],
+                      );
+                    });
+                //User.userData = dataUser["username_member"];
 
-                Navigator.push(context(), MaterialPageRoute(builder: (context) {
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return BarScreen();
                 }));
-              } else {
-                normalDialog(context(), 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
               }
             }
           },

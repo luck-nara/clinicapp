@@ -430,7 +430,7 @@ class _IndexScreenState extends State<IndexScreen> {
                   ),*/
               Padding(
                   padding:
-                      EdgeInsets.fromLTRB(0, 20, 150, 0), //ซ้าย,บน,ขวา,ล่าง
+                      EdgeInsets.only(top: 10, bottom: 10), //ซ้าย,บน,ขวา,ล่าง
                   child: Text(
                     'คลินิกบริเวณใกล้เคียง',
                     style: TextStyle(
@@ -449,7 +449,7 @@ class _IndexScreenState extends State<IndexScreen> {
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: 5,
+                                itemCount: 10,
                                 itemBuilder: (context, i) {
                                   if (_data["data"][i]["type_clinics"] !=
                                       "คลินิกสัตว์") {
@@ -496,6 +496,8 @@ class _IndexScreenState extends State<IndexScreen> {
                                                         ),
                                                     Text(
                                                       "${_data["data"][i]["name_clinics"].toString()}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                           color: Color.fromRGBO(
                                                               0, 0, 0, 1),
@@ -534,8 +536,7 @@ class _IndexScreenState extends State<IndexScreen> {
                           child: CircularProgressIndicator(),
                         )),
               Padding(
-                  padding:
-                      EdgeInsets.fromLTRB(0, 20, 160, 0), //ซ้าย,บน,ขวา,ล่าง
+                  padding: EdgeInsets.fromLTRB(20, 20, 0, 0), //ซ้าย,บน,ขวา,ล่าง
                   child: Text('คลินิกยอดนิยมในขณะนี้',
                       style: TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 1),
@@ -552,7 +553,7 @@ class _IndexScreenState extends State<IndexScreen> {
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: 4,
+                                itemCount: 10,
                                 itemBuilder: (context, i) {
                                   if (_dataHot[i]["type_clinics"] !=
                                       "คลินิกสัตว์") {
@@ -599,6 +600,8 @@ class _IndexScreenState extends State<IndexScreen> {
                                                         ),
                                                     Text(
                                                         "${_dataHot[i]["name_clinics"].toString()}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             color:
                                                                 Color.fromRGBO(

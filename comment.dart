@@ -234,12 +234,17 @@ class _CommentScreenState extends State<CommentScreen> {
                         _idmemberComment ?? "",
                       );
                       print(dataUser);
+                      /*
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return CommentScreen(
                           idClinics: widget.idClinics,
                         );
                       }));
+                      */
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("แสดงความคิดเห็นเรียบร้อยเเล้ว")));
                     },
                     child: Container(
                       width: 200,

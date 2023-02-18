@@ -46,6 +46,7 @@ class _DateScreenState extends State<DateScreen> {
   final formKeyappoint = GlobalKey<FormState>();
 
   var _data;
+
   TextEditingController _date = TextEditingController();
   Future<void> getAppoint() async {
     String path = "${Config.url}/getappoint";
@@ -54,7 +55,7 @@ class _DateScreenState extends State<DateScreen> {
 
     data = json.decode(data.toString());
     //print(data);
-    print(data["data"].length);
+    print(data["data"]);
     setState(() {
       _data = data;
     });
@@ -73,9 +74,21 @@ class _DateScreenState extends State<DateScreen> {
     });
   }
 
+  /* Future<void> getClinic() async {
+    String path = "${Config.url}/getclinic";
+    var data;
+    await Dio().get(path).then((value) => data = value);
+    data = json.decode(data.toString());
+    print(_data);
+    setState(() {
+      _data = data;
+    });
+  }*/
+
   void initState() {
     super.initState();
     getAppoint();
+    //getClinic();
     deleteAppoint(dynamic);
     _idmemberAppoint = User.userData["id_member"].toString();
   }
@@ -101,11 +114,13 @@ class _DateScreenState extends State<DateScreen> {
         leading: GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ProfileScreen();
+              return BarScreen(
+                index: 1,
+              );
             }));
           },
           child: Icon(
-            Icons.person,
+            Icons.arrow_back_outlined,
             size: 26.0,
           ),
         ),
@@ -138,63 +153,72 @@ class _DateScreenState extends State<DateScreen> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'NotoSansThai')),
           Padding(
-            padding: EdgeInsets.fromLTRB(150, 10, 0, 0), //ซ้าย,บน,ขวา,ล่าง
-            child: AdddateButton(),
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                AdddateButton(),
+              ],
+            ),
           ),
           SizedBox(
             height: 10,
           ),
           Expanded(
               child: (_data != null)
-                  ? FutureBuilder(builder: (context, snapshot) {
-                      return ListView.separated(
-                        itemBuilder: (context, i) {
-                          if (_data["data"][i]["id_member"] ==
-                              User.userData["id_member"]) {
-                            return ListTile(
-                                title: Container(
-                                    width: 350,
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Row(
-                                        /*mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,*/
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            // color: Colors.blue,
-                                            width: 270,
-                                            //height: 50,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                /*Text(User
-                                                    .userData["username_member"]
-                                                    .toString()),*/
-                                                Row(
-                                                  children: [
-                                                    Text("ชื่อคลินิก : ",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                            fontFamily:
-                                                                'NotoSansThai')),
-                                                    Text(
+                  ? ListView.builder(
+                      itemBuilder: (context, i) {
+                        if (_data["data"][i]["id_member"] ==
+                            User.userData["id_member"]) {
+                          return ListTile(
+                              title: Padding(
+                            padding: const EdgeInsets.only(left: 5, right: 5),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Row(
+                                    /*mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,*/
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, right: 5),
+                                        child: Container(
+                                          // color: Colors.blue,
+                                          //height: 50,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              /*Text(User
+                                                        .userData["username_member"]
+                                                        .toString()),*/
+                                              Row(
+                                                children: [
+                                                  Text("ชื่อคลินิก : ",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                          fontFamily:
+                                                              'NotoSansThai')),
+                                                  Container(
+                                                    width: 130,
+                                                    child: Text(
                                                         "${_data["data"][i]["name_clinics"]}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             fontSize: 20,
                                                             //fontWeight: FontWeight.bold,
@@ -203,46 +227,50 @@ class _DateScreenState extends State<DateScreen> {
                                                                     0, 0, 0, 1),
                                                             fontFamily:
                                                                 'NotoSansThai')),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text("วันที่ : ",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                            fontFamily:
-                                                                'NotoSansThai')),
-                                                    Text(
-                                                        "${_data["data"][i]["date_appoint"]}",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            //fontWeight: FontWeight.bold,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                            fontFamily:
-                                                                'NotoSansThai')),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text("รายละเอียด : ",
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                            fontFamily:
-                                                                'NotoSansThai')),
-                                                    Text(
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text("วันที่ : ",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                          fontFamily:
+                                                              'NotoSansThai')),
+                                                  Text(
+                                                      "${_data["data"][i]["date_appoint"]}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          //fontWeight: FontWeight.bold,
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                          fontFamily:
+                                                              'NotoSansThai')),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text("รายละเอียด : ",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                          fontFamily:
+                                                              'NotoSansThai')),
+                                                  Container(
+                                                    width: 130,
+                                                    child: Text(
                                                         "${_data["data"][i]["detail_appoint"]}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             fontSize: 20,
                                                             //fontWeight: FontWeight.bold,
@@ -251,108 +279,114 @@ class _DateScreenState extends State<DateScreen> {
                                                                     0, 0, 0, 1),
                                                             fontFamily:
                                                                 'NotoSansThai')),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                )
-                                              ],
-                                            ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            //color: Colors.black,
-                                            child: Column(children: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'คุณต้องการที่จะลบวันนัดหมายนี้ใช่หรือไม่ ?',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            0,
-                                                                            0,
-                                                                            0),
-                                                                    fontFamily:
-                                                                        'NotoSansThai')),
-                                                            actions: [
-                                                              ElevatedButton(
-                                                                  style: ElevatedButton
-                                                                      .styleFrom(
-                                                                          primary: Colors
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 0, left: 0),
+                                        child: Container(
+                                          // color: Colors.black,
+                                          child: Column(children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text(
+                                                            'คุณต้องการที่จะลบวันนัดหมายนี้ใช่หรือไม่ ?',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                fontFamily:
+                                                                    'NotoSansThai')),
+                                                        actions: [
+                                                          ElevatedButton(
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                      primary:
+                                                                          Colors
                                                                               .red),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: const Text(
-                                                                      'ไม่',
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              18,
-                                                                          color: Color.fromARGB(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Text('ไม่',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Color
+                                                                          .fromARGB(
                                                                               255,
                                                                               0,
                                                                               0,
                                                                               0),
-                                                                          fontFamily:
-                                                                              'NotoSansThai'))),
-                                                              ElevatedButton(
-                                                                  style: ElevatedButton
-                                                                      .styleFrom(
-                                                                          primary: Colors
+                                                                      fontFamily:
+                                                                          'NotoSansThai'))),
+                                                          ElevatedButton(
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                      primary:
+                                                                          Colors
                                                                               .green),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    deleteAppoint(
-                                                                        _data["data"]
-                                                                            [
-                                                                            i]);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: const Text(
-                                                                      'ใช่',
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              18,
-                                                                          color: Color.fromARGB(
+                                                              onPressed:
+                                                                  () async {
+                                                                deleteAppoint(
+                                                                    _data["data"]
+                                                                        [i]);
+                                                                Navigator.pop(
+                                                                    context);
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(SnackBar(
+                                                                        content:
+                                                                            Text("ลบวันนัดหมายเรียบร้อยเเล้ว")));
+                                                              },
+                                                              child: const Text(
+                                                                  'ใช่',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Color
+                                                                          .fromARGB(
                                                                               255,
                                                                               0,
                                                                               0,
                                                                               0),
-                                                                          fontFamily:
-                                                                              'NotoSansThai'))),
-                                                            ],
-                                                          );
-                                                        });
-                                                  },
-                                                  child: SizedBox(
-                                                      height: 30,
-                                                      width: 60,
-                                                      child: Image.asset(
-                                                          "images/delete.png"))),
-                                            ]),
-                                          ),
-                                        ])));
-                          } else {
-                            return Container();
-                          }
-                        },
-                        separatorBuilder: (context, i) {
+                                                                      fontFamily:
+                                                                          'NotoSansThai'))),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
+                                              child: SizedBox(
+                                                  height: 30,
+                                                  width: 60,
+                                                  child: Image.asset(
+                                                      "images/delete.png")),
+                                            ),
+                                          ]),
+                                        ),
+                                      ),
+                                    ])),
+                          ));
+                        } else {
                           return Container();
-                        },
-                        itemCount: _data["data"]?.length ?? 0,
-                      );
-                    })
+                        }
+                      },
+                      itemCount: _data["data"]?.length ?? 0,
+                    )
                   : Center(
                       child: CircularProgressIndicator(),
                     ))
@@ -488,7 +522,7 @@ class _DateScreenState extends State<DateScreen> {
                         DateTime? pickeddate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
+                            firstDate: DateTime.now(),
                             lastDate: DateTime(2025));
 
                         if (pickeddate != null) {

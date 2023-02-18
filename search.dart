@@ -30,7 +30,11 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BarScreen(
+                index: 0,
+              );
+            }));
           },
           child: Icon(
             Icons.arrow_back_outlined,

@@ -160,15 +160,20 @@ class _SearchdiseasScreenState extends State<SearchdiseaseScreen> {
                                           SizedBox(
                                             width: 20,
                                           ),
-                                          Text(
-                                              _data[i]["name_clinics"]
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                  fontSize: 20,
-                                                  //fontWeight: FontWeight.bold,
-                                                  fontFamily: 'NotoSansThai')),
+                                          Container(
+                                            width: 240,
+                                            child: Text(
+                                                _data[i]["name_clinics"]
+                                                    .toString(),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                    fontSize: 20,
+                                                    //fontWeight: FontWeight.bold,
+                                                    fontFamily:
+                                                        'NotoSansThai')),
+                                          ),
                                         ],
                                       ),
                                     )),

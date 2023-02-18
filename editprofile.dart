@@ -158,75 +158,79 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Text("ชื่อผู้ใช้",
                   style: TextStyle(
                       color: Color.fromRGBO(0, 0, 0, 1),
+                      fontWeight: FontWeight.bold,
                       fontSize: 20,
                       fontFamily: 'NotoSansThai')),
               SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 20,
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text('ชื่อจริง : ',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'NotoSansThai')),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    width: 350,
+                    height: 50,
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                    ),
+                    child: TextFormField(
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) => _firstnameMember = value,
+                      initialValue: User.userData["firstname_member"],
+                    ),
+                    //TextFormField(initialValue: User.userData["username_member"]),
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: Row(
-                    children: [
-                      Text('ชื่อ - นามสกุล : ',
-                          style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              fontFamily: 'NotoSansThai')),
-                    ],
-                  ),
+                  child: Text('นามสกุล : ',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'NotoSansThai')),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        width: 170,
-                        height: 50,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
-                        child: TextFormField(
-                          decoration: new InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (value) => _firstnameMember = value,
-                          initialValue: User.userData["firstname_member"],
-                        ),
-                        //TextFormField(initialValue: User.userData["username_member"]),
+                  child: Container(
+                    width: 350,
+                    height: 50,
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                    ),
+                    child: TextFormField(
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
                       ),
-                      SizedBox(
-                        width: 7,
-                      ),
-                      Container(
-                        width: 170,
-                        height: 50,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
-                        child: TextFormField(
-                          decoration: new InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (value) => _lastnameMember = value,
-                          initialValue: User.userData["lastname_member"],
-                        ),
-                        //TextFormField(initialValue: User.userData["username_member"]),
-                      ),
-                    ],
+                      onChanged: (value) => _lastnameMember = value,
+                      initialValue: User.userData["lastname_member"],
+                    ),
+                    //TextFormField(initialValue: User.userData["username_member"]),
                   ),
                 ),
               ),
@@ -243,7 +247,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Container(
@@ -278,7 +282,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Container(
@@ -301,9 +305,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 10,
               ),
               saveeditButton(),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),
@@ -352,6 +359,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 builder: (context) => ProfileScreen(),
               ),
             );
+            ScaffoldMessenger.of(context()).showSnackBar(
+                SnackBar(content: Text("แก้ไขข้อมูลโปรไฟล์เรียบร้อยเเล้ว")));
           },
           child: Row(
             children: [

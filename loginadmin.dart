@@ -6,7 +6,7 @@ import 'dart:convert';
 
 import 'package:animated_button/animated_button.dart';
 import 'package:clinicapp/admin/baradmin.dart';
-import 'package:clinicapp/admin/crud.dart';
+
 import 'package:clinicapp/admin/indexadmin.dart';
 import 'package:clinicapp/screen/Bar.dart';
 import 'package:clinicapp/screen/config.dart';
@@ -81,7 +81,7 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
                         style: TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: 25,
                             fontFamily: 'NotoSansThai'),
                       )
                     ]),
@@ -99,7 +99,7 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
                         style: TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                            fontSize: 20,
                             fontFamily: 'NotoSansThai'),
                       )
                     ]),
@@ -137,21 +137,18 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
                               fontSize: 20,
                               fontFamily: 'NotoSansThai'),
                         ),
-                        Positioned(
-                            left: 59,
-                            top: 129,
-                            child: Container(
-                              width: 230,
-                              child: TextField(
-                                onChanged: (value) => _userAdmin = value,
-                                controller: _ctrlUserAdmin,
-                                decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  //hintText: 'ชื่อผู้ใช้',
-                                  hintStyle: TextStyle(color: hintText),
-                                ),
-                              ),
-                            )),
+                        Container(
+                          width: 230,
+                          child: TextField(
+                            onChanged: (value) => _userAdmin = value,
+                            controller: _ctrlUserAdmin,
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(),
+                              //hintText: 'ชื่อผู้ใช้',
+                              hintStyle: TextStyle(color: hintText),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                     SizedBox(
@@ -169,23 +166,19 @@ class _LoginAdminScreenState extends State<LoginAdminScreen> {
                               fontSize: 20,
                               fontFamily: 'NotoSansThai'),
                         ),
-                        Positioned(
-                            left: 59,
-                            top: 229,
-                            child: Container(
-                              width: 230,
-                              child: TextField(
-                                onChanged: (value) =>
-                                    _passwordAdmin = value.trim(),
-                                obscureText: true,
-                                controller: _ctrlPasswordAdmin,
-                                decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  // hintText: 'รหัสผ่าน',
-                                  hintStyle: TextStyle(color: hintText),
-                                ),
-                              ),
-                            )),
+                        Container(
+                          width: 230,
+                          child: TextField(
+                            onChanged: (value) => _passwordAdmin = value.trim(),
+                            obscureText: true,
+                            controller: _ctrlPasswordAdmin,
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(),
+                              // hintText: 'รหัสผ่าน',
+                              hintStyle: TextStyle(color: hintText),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ]),

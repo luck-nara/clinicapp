@@ -743,6 +743,9 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
                                         MainAxisAlignment.spaceAround,
                                     children: [CommentButton(), MapButton()],
                                   ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                 ],
                               ),
                             ),
@@ -760,7 +763,7 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
 
   Widget CommentButton() => Container(
         child: AnimatedButton(
-          width: 160,
+          width: 170,
           height: 100,
           color: Color.fromRGBO(251, 182, 6, 1),
           onPressed: () async {
@@ -773,13 +776,13 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
               children: [
                 Image.asset(
                   "images/comment.png",
-                  height: 50,
+                  height: 70,
                 ),
                 Text(
                   'แสดงความคิดเห็น',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 16,
                       color: Color.fromARGB(255, 0, 0, 0),
                       fontFamily: 'NotoSansThai'),
                 ),
@@ -790,7 +793,7 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
       );
   Widget MapButton() => Container(
         child: AnimatedButton(
-          width: 160,
+          width: 170,
           height: 100,
           color: Color.fromRGBO(251, 182, 6, 1),
           onPressed: () async {
@@ -810,13 +813,13 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
               children: [
                 Image.asset(
                   "images/map.png",
-                  height: 50,
+                  height: 70,
                 ),
                 Text(
                   'นำทางไปยังคลินิก',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 16,
                       color: Color.fromARGB(255, 0, 0, 0),
                       fontFamily: 'NotoSansThai'),
                 ),

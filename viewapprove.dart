@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:animated_button/animated_button.dart';
-import 'package:clinicapp/admin/crud.dart';
+
 import 'package:clinicapp/screen/Bar.dart';
 import 'package:clinicapp/api/apiclinicwaiting.dart';
 import 'package:clinicapp/screen/profile/profile.dart';
+import 'package:clinicapp/screen/wellcome.dart';
 import 'package:clinicapp/screen/widgets/show_progress.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
@@ -400,30 +401,60 @@ class _ViewapproveState extends State<Viewapprove> {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            {
-              Navigator.pop(context);
-            }
-          },
-        ),
+        backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Image.asset(
-          "images/search.png",
-          width: 50,
+        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+            style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansThai')),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
         ),
-        backgroundColor: Color.fromRGBO(41, 52, 48, 1),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_outlined,
+            size: 26.0,
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WellcomeScreen();
+                  }));
+                },
+                child: Icon(
+                  Icons.logout,
+                  size: 26.0,
+                ),
+              )),
+        ],
       ),
+      backgroundColor: Color.fromRGBO(124, 185, 163, 1),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
         child: Form(
           child: SingleChildScrollView(
               child: Column(children: [
+            SizedBox(
+              height: 10,
+            ),
+            Text('อนุมัติคลินิก',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSansThai')),
             SizedBox(
               height: 10,
             ),
@@ -657,7 +688,9 @@ class _ViewapproveState extends State<Viewapprove> {
                   await Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => CrudScreen(),
+                      builder: (context) => BarScreen(
+                        index: 0,
+                      ),
                     ),
                   );
                 },

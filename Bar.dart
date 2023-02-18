@@ -95,6 +95,7 @@ class _BarScreenState extends State<BarScreen> {
     print(widget.index);
     print("22222222222");
     print(_selectedIndex);
+
     return Scaffold(
       body: _pageWidget.elementAt(widget.index ?? _selectedIndex),
       bottomNavigationBar: SizedBox(

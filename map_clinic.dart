@@ -54,7 +54,12 @@ class _MapclinicScreenState extends State<MapclinicScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Text('แอปพลิเคชั่นค้นหาคลินิก'),
+        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+            style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansThai')),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -63,7 +68,9 @@ class _MapclinicScreenState extends State<MapclinicScreen> {
         leading: GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return BarScreen();
+              return BarScreen(
+                index: 1,
+              );
             }));
           },
           child: Icon(
@@ -126,7 +133,12 @@ class _MapclinicScreenState extends State<MapclinicScreen> {
           print("vbvb");
         },
         backgroundColor: Color.fromARGB(255, 10, 81, 3),
-        label: Text("ส่งตำเเหน่ง"),
+        label: Text("ส่งตำเเหน่ง",
+            style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansThai')),
         icon: Icon(Icons.near_me),
       ),
     );
@@ -137,12 +149,25 @@ class _MapclinicScreenState extends State<MapclinicScreen> {
         context: context(),
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('ตำเเหน่งปัจจุบันของคลินิก'),
+            title: const Text('ตำเเหน่งปัจจุบันของคลินิก',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSansThai')),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('ค่าละติจูด คือ ${userLocation.latitude} '),
-                Text('ค่าลองจิจูด คือ  ${userLocation.longitude}'),
+                Text('ค่าละติจูด คือ ${userLocation.latitude} ',
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontSize: 18,
+                        fontFamily: 'NotoSansThai')),
+                Text('ค่าลองจิจูด คือ  ${userLocation.longitude}',
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontSize: 18,
+                        fontFamily: 'NotoSansThai')),
               ],
             ),
             actions: [
@@ -151,7 +176,11 @@ class _MapclinicScreenState extends State<MapclinicScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('ไม่')),
+                  child: const Text('ไม่',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 18,
+                          fontFamily: 'NotoSansThai'))),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.green),
                   onPressed: () {
@@ -160,17 +189,15 @@ class _MapclinicScreenState extends State<MapclinicScreen> {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return BarScreen(
-                        index:
-                            1, /*data: {
-                        "lat": userLocation.latitude,
-                        "lng": userLocation.longitude,
-                      }*/
+                        index: 1,
                       );
                     }));
                   },
-                  child: const Text(
-                    'ใช่',
-                  )),
+                  child: const Text('ใช่',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 18,
+                          fontFamily: 'NotoSansThai'))),
             ],
           );
         });

@@ -59,7 +59,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                           style: TextStyle(
                               color: Color.fromRGBO(0, 0, 0, 1),
                               fontWeight: FontWeight.bold,
-                              fontSize: 30,
+                              fontSize: 25,
                               fontFamily: 'NotoSansThai'),
                         )
                       ]),
@@ -77,7 +77,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                           style: TextStyle(
                               color: Color.fromRGBO(0, 0, 0, 1),
                               fontWeight: FontWeight.bold,
-                              fontSize: 25,
+                              fontSize: 20,
                               fontFamily: 'NotoSansThai'),
                         )
                       ]),
@@ -87,7 +87,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                 ),
                 loginButton(),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 loginButton2(),
                 SizedBox(
@@ -102,7 +102,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
   Widget loginButton() => Container(
         child: AnimatedButton(
           width: 350.0,
-          height: 80,
+          height: 100,
           color: Color.fromRGBO(251, 182, 6, 1),
           onPressed: () async {
             Navigator.push(context(), MaterialPageRoute(builder: (context) {
@@ -113,7 +113,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
             "สำหรับผู้ใช้งาน",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 25,
+                fontSize: 20,
                 color: Color.fromARGB(255, 255, 255, 255),
                 fontFamily: 'NotoSansThai'),
           ),
@@ -123,7 +123,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
   Widget loginButton2() => Container(
         child: AnimatedButton(
           width: 350.0,
-          height: 80,
+          height: 100,
           color: Color.fromRGBO(251, 182, 6, 1),
           onPressed: () async {
             Navigator.push(context(), MaterialPageRoute(builder: (context) {
@@ -134,7 +134,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
             "สำหรับผู้ดูแลระบบ",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 25,
+                fontSize: 20,
                 color: Color.fromARGB(255, 255, 255, 255),
                 fontFamily: 'NotoSansThai'),
           ),

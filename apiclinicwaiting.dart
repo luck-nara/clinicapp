@@ -95,7 +95,7 @@ class ApiProviders {
         latitudeWaiting +
         longitudeWaiting);
 
-    print("กดเกดเ");
+    print("11111111111111111111111111");
     // ignore: unused_local_variable
     final data = {
       "name_waiting": nameWaiting,

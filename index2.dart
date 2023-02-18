@@ -21,6 +21,7 @@ class Index2Screen extends StatefulWidget {
 
 class _Index2ScreenState extends State<Index2Screen> {
   var _data;
+  var _dataHot;
   late String distance = "";
   late Position? _position;
   Position? position;
@@ -91,13 +92,16 @@ class _Index2ScreenState extends State<Index2Screen> {
 
   Future<void> getClinic() async {
     String path = "${Config.url}/getclinic";
-    var data;
+    String pathComment = "${Config.url}/getcomments";
+    var data, dataHot;
     await Dio().get(path).then((value) => {data = value});
+    await Dio().get(pathComment).then((value) => {dataHot = value});
 
     data = json.decode(data.toString());
+    dataHot = json.decode(dataHot.toString());
 
     //print(data);
-    print(data["data"].length);
+    //print(data["data"].length);
     final haversineDistance = HaversineDistance();
     Position? position = await _getLocation() as Position?;
 
@@ -112,19 +116,76 @@ class _Index2ScreenState extends State<Index2Screen> {
                 Unit.KM)
             .floor();
         data["data"][i]["dis"] = dis;
-        print(dis);
+        //config.dart(dis);
       } catch (err) {
         data["data"][i]["dis"] = 100000000000000000000000000.0;
+      }
+    }
+
+    Map<String, dynamic> tempStar = {};
+    Map<String, dynamic> tempStarCount = {};
+    for (int i = 0; i < dataHot["data"].length; i++) {
+      dynamic tempCount =
+          tempStar[dataHot["data"][i]["id_clinics"].toString()] ?? 0;
+
+      dynamic tempCountAvg =
+          tempStarCount[dataHot["data"][i]["id_clinics"].toString()] ?? 0;
+      //print(dataHot["data"][i]["id_clinics"].toString());
+      //print(tempCountAvg);
+      tempStar[dataHot["data"][i]["id_clinics"].toString()] =
+          tempCount + dataHot["data"][i]["star_comment"];
+
+      tempStarCount[dataHot["data"][i]["id_clinics"].toString()] =
+          tempCountAvg + 1;
+
+      try {} catch (err) {
+        // data["data"][i]["dis"] = 100000000000000000000000000.0;
+      }
+    }
+
+    //print(tempStar);
+    //print(tempStarCount);
+
+    tempStar.forEach((key, value) {
+      tempStar[key] = value / tempStarCount[key];
+    });
+    print(tempStar);
+    var sortMapByValue = Map.fromEntries(tempStar.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+    print(sortMapByValue);
+
+    int countHot = 0;
+    List<dynamic> Hot = [];
+    List<dynamic> datahot = [];
+    sortMapByValue.forEach((key, value) {
+      countHot += 1;
+
+      Hot.add({"id": key, "value": value});
+    });
+
+    for (int a = 0; a < Hot.length; a++) {
+      for (int k = 0; k < data["data"].length; k++) {
+        print(Hot[a]["id"]);
+        if (data["data"][k]["id_clinics"].toString() ==
+            Hot[a]["id"].toString()) {
+          data["data"][k]["star"] = Hot[a]["value"].round();
+
+          datahot.add(data["data"][k]);
+        }
       }
     }
 
     final temp = List.from(data["data"]);
     temp.sort((a, b) => a["dis"].compareTo(b["dis"]));
     data["data"] = temp;
-    print(temp.length);
-    print(data["data"]);
+    //print(temp.length);
+    // print(data["data"]);
+    print("-----------------------------");
+    print(data["data"].length.toString());
     setState(() {
       _data = data;
+      _dataHot = datahot;
     });
   }
 
@@ -132,7 +193,8 @@ class _Index2ScreenState extends State<Index2Screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    // _determinePosition();
+    //_getLocation();
     getClinic();
     print(_data);
   }
@@ -357,7 +419,7 @@ class _Index2ScreenState extends State<Index2Screen> {
                   ),*/
               Padding(
                   padding:
-                      EdgeInsets.fromLTRB(0, 20, 150, 0), //ซ้าย,บน,ขวา,ล่าง
+                      EdgeInsets.only(top: 10, bottom: 10), //ซ้าย,บน,ขวา,ล่าง
                   child: Text('คลินิกบริเวณใกล้เคียง',
                       style: TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 1),
@@ -374,7 +436,7 @@ class _Index2ScreenState extends State<Index2Screen> {
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: 8,
+                                itemCount: 10,
                                 itemBuilder: (context, i) {
                                   if (_data["data"][i]["type_clinics"] ==
                                       "คลินิกสัตว์") {
@@ -421,6 +483,8 @@ class _Index2ScreenState extends State<Index2Screen> {
                                                         ),
                                                     Text(
                                                         "${_data["data"][i]["name_clinics"].toString()}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
@@ -431,7 +495,7 @@ class _Index2ScreenState extends State<Index2Screen> {
                                                             fontFamily:
                                                                 'NotoSansThai')),
                                                     Text(
-                                                        "ระยะทาง ${_data["data"][i]["dis"].toString()}",
+                                                        "ระยะทาง ${_data["data"][i]["dis"].toString()} กิโลเมตร",
                                                         style: TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
@@ -460,7 +524,7 @@ class _Index2ScreenState extends State<Index2Screen> {
                         )),
               Padding(
                   padding:
-                      EdgeInsets.fromLTRB(0, 20, 160, 0), //ซ้าย,บน,ขวา,ล่าง
+                      EdgeInsets.only(top: 10, bottom: 10), //ซ้าย,บน,ขวา,ล่าง
                   child: Text('คลินิกยอดนิยมในขณะนี้',
                       style: TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 1),
@@ -477,9 +541,9 @@ class _Index2ScreenState extends State<Index2Screen> {
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: _data["data"]?.length ?? 0,
+                                itemCount: 10,
                                 itemBuilder: (context, i) {
-                                  if (_data["data"][i]["type_clinics"] ==
+                                  if (_dataHot[i]["type_clinics"] ==
                                       "คลินิกสัตว์") {
                                     return Container(
                                       //color: Colors.black,
@@ -501,7 +565,7 @@ class _Index2ScreenState extends State<Index2Screen> {
                                                     builder: (context) {
                                                       return DataclinicScreen(
                                                         title: Text("data"),
-                                                        data: _data["data"][i],
+                                                        data: _dataHot[i],
                                                       );
                                                     },
                                                   ),
@@ -515,7 +579,7 @@ class _Index2ScreenState extends State<Index2Screen> {
                                                 child: Center(
                                                   child: Column(children: [
                                                     Image.network(
-                                                        "${_data["data"][i]["img_clinics"].toString()}",
+                                                        "${_dataHot[i]["img_clinics"].toString()}",
                                                         width: 300,
                                                         height: 100,
                                                         fit: BoxFit.fill
@@ -523,7 +587,9 @@ class _Index2ScreenState extends State<Index2Screen> {
                                                         // width: 200,
                                                         ),
                                                     Text(
-                                                        "${_data["data"][i]["name_clinics"].toString()}",
+                                                        "${_dataHot[i]["name_clinics"].toString()}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
@@ -533,11 +599,22 @@ class _Index2ScreenState extends State<Index2Screen> {
                                                                 FontWeight.bold,*/
                                                             fontFamily:
                                                                 'NotoSansThai')),
-                                                    Icon(
-                                                      Icons.star,
-                                                      color: Colors.yellow,
-                                                      size: 26.0,
-                                                    ),
+                                                    Wrap(
+                                                        spacing:
+                                                            12, // space between two icons
+                                                        children: <Widget>[
+                                                          for (int j = 0;
+                                                              j <=
+                                                                  _dataHot[i][
+                                                                          "star"] -
+                                                                      1;
+                                                              j++)
+                                                            Icon(
+                                                              Icons.star,
+                                                              color:
+                                                                  Colors.yellow,
+                                                            ),
+                                                        ]),
                                                   ]),
                                                 ),
                                               ),

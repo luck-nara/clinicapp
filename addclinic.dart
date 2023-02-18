@@ -7,6 +7,7 @@ import 'package:clinicapp/screen/login.dart';
 import 'package:clinicapp/screen/profile/profile.dart';
 import 'package:clinicapp/screen/wellcome.dart';
 import 'package:clinicapp/screen/widgets/show_progress.dart';
+import 'package:dio/dio.dart';
 import 'package:location/location.dart';
 import '../../utility/add.dart';
 import '../index.dart';
@@ -36,7 +37,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
   late Position userLocation;
   late GoogleMapController mapController;
 
-  // ignore: unused_field
+  // ignore: unused_fieldไปgpssหน้าgps
   // ignore: unused_field
   String _nameWaiting = AddClinicuser.nameclinicuser.toString();
   // ignore: unused_field
@@ -85,19 +86,20 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
 
   final formKey = GlobalKey<FormState>();
   String? selectedValue;
-  String _typeWaiting = 'สหคลินิก';
-  String _vehicleWaiting = 'รถทุกชนิด';
+  String _typeWaiting = AddClinicuser.typeclinicuser.toString();
+  String _vehicleWaiting = AddClinicuser.vehicleclinicuser.toString();
   static const menuItems = <String>[
+    '-----',
     'สหคลินิก',
     'คลินิกสัตว์',
     'กุมารเวชกรรม',
     'ทันตกรรม',
-    'การพยาบาลและการผดุงครรค์',
+    'พยาบาลและผดุงครรค์',
     'ศัลยกรรมกระดูกและข้อ',
     'กายยภาพบำบัด',
     'เทคนิคการแพทย์',
     'การแพทย์แผนไทย',
-    'เทคโนโลยีหัวใจและทรวงอก',
+    'หัวใจและทรวงอก',
     'การแพทย์แผนจีน',
     'รังสีเทคนิก',
     'จิตวิทยาคลินิก',
@@ -105,7 +107,9 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
     'กิจกรรมบำบัด',
     'ผิวหนัง',
     'สูตินรีเวช',
-    'ฝังเข็ม'
+    'ฝังเข็ม',
+    'สมองและระบบประสาท',
+    'ระบบทางเดินอาหารและตับ'
   ];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map(
@@ -117,6 +121,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
       .toList();
 
   static const menuItems2 = <String>[
+    '-----',
     'รถทุกชนิด',
     'รถจักรยานยนต์',
   ];
@@ -159,6 +164,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                initialValue: AddClinicuser.nameclinicuser.toString(),
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -170,10 +176,13 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                   ),
                   // hintText: 'ชื่อคลินิก',
                 ),
-                onChanged: (value) => AddClinicuser.nameclinicuser = value,
+                onChanged: (value) {
+                  _nameWaiting = value;
+                  AddClinicuser.nameclinicuser = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'กรุณากรอกชื่อคลินิก';
+                    return 'กรุณากรอกชื่อคลินิก !';
                   }
                   return null;
                 },
@@ -207,6 +216,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                initialValue: AddClinicuser.addressclinicuser.toString(),
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -218,10 +228,13 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                   ),
                   //hintText: 'ที่อยู่คลินิก',
                 ),
-                onChanged: (value) => AddClinicuser.addressclinicuser = value,
+                onChanged: (value) {
+                  _addressWaiting = value;
+                  AddClinicuser.addressclinicuser = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'กรุณากรอกที่อยู่คลินิก';
+                    return 'กรุณากรอกที่อยู่คลินิก !';
                   }
                   return null;
                 },
@@ -255,6 +268,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                initialValue: AddClinicuser.timeclinicuser.toString(),
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -266,10 +280,13 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                   ),
                   // hintText: 'เวลาทำการ',
                 ),
-                onChanged: (value) => AddClinicuser.timeclinicuser = value,
+                onChanged: (value) {
+                  _timeWaiting = value;
+                  AddClinicuser.timeclinicuser = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'กรุณากรอกเวลาทำการ';
+                    return 'กรุณากรอกเวลาทำการ !';
                   }
                   return null;
                 },
@@ -303,6 +320,8 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                initialValue: AddClinicuser.tellclinicuser.toString(),
+                keyboardType: TextInputType.number,
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -314,13 +333,18 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                   ),
                   //hintText: 'เบอร์โทรคลินิก',
                 ),
-                onChanged: (value) => AddClinicuser.tellclinicuser = value,
+                onChanged: (value) {
+                  _tellWaiting = value;
+                  AddClinicuser.tellclinicuser = value;
+                },
                 validator: ((value) {
                   if (value == null || value.isEmpty) {
-                    return 'กรุณากรอกเบอร์โทร';
+                    return 'กรุณากรอกเบอร์โทร !';
                   } else if (value[0] != "0") {
-                    return 'รูปแบบเบอร์โทรไม่ถูกต้อง';
-                  } else if (value.length != 10) {
+                    return 'รูปแบบเบอร์โทรไม่ถูกต้อง !';
+                  } else if (value.length <= 9) {
+                    return 'จำนวนเบอร์โทรไม่ถูกต้อง';
+                  } else if (value.length > 10) {
                     return 'จำนวนเบอร์โทรไม่ถูกต้อง';
                   }
                   return null;
@@ -355,6 +379,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                initialValue: AddClinicuser.detailclinicuser.toString(),
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -366,10 +391,13 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                   ),
                   //hintText: 'รายละเอียดของคลินิก',
                 ),
-                onChanged: (value) => AddClinicuser.detailclinicuser = value,
+                onChanged: (value) {
+                  _detailWaiting = value;
+                  AddClinicuser.detailclinicuser = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'กรุณากรอกรายละเอียดของคลินิก';
+                    return 'กรุณากรอกรายละเอียดของคลินิก !';
                   }
                   return null;
                 },
@@ -402,6 +430,12 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
             hintText: 'ค่าละติจูด',
           ),
           onChanged: (value) => _latitudeWaiting = value,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'กรุณากรอกปักหมุดตำเเหน่งของคลินิก !';
+            }
+            return null;
+          },
         ),
       )
     ]);
@@ -428,6 +462,118 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
             hintText: 'ค่าละติจูด',
           ),
           onChanged: (value) => _longitudeWaiting = value,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'กรุณากรอกปักหมุดตำเเหน่งของคลินิก !';
+            }
+            return null;
+          },
+        ),
+      )
+    ]);
+  }
+
+  Row buildtype(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ประเภท : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: ListTile(
+                //title: const Text('ประเภทคลินิก  :'),
+                title: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    // Must be one of items.value.
+                    value: AddClinicuser.typeclinicuser,
+                    hint: Text('-----',
+                        overflow: TextOverflow.ellipsis,
+                        /*'${AddClinicuser.typeclinicuser != "" ? (AddClinicuser.typeclinicuser) : "สหคลินิก"}'*/
+                        style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'NotoSansThai')),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          AddClinicuser.typeclinicuser = newValue;
+                          _typeWaiting = newValue;
+                        });
+                      }
+                    },
+
+                    items: this._dropDownMenuItems,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  Row buildcar(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('รถที่สะดวก : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: ListTile(
+                title: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: AddClinicuser.vehicleclinicuser,
+                    hint: const Text(
+                        '-----' /*'${AddClinicuser.vehicleclinicuser != "" ? (AddClinicuser.vehicleclinicuser) : "รถทุกชนิด1"}'*/,
+                        style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'NotoSansThai')),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          AddClinicuser.vehicleclinicuser = newValue;
+                          _vehicleWaiting = newValue;
+                        });
+                      }
+                    },
+                    items: this._dropDownMenuItems2,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       )
     ]);
@@ -454,11 +600,13 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
         leading: GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ProfileScreen();
+              return BarScreen(
+                index: 0,
+              );
             }));
           },
           child: Icon(
-            Icons.person,
+            Icons.arrow_back_outlined,
             size: 26.0,
           ),
         ),
@@ -504,6 +652,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
                 onTap: () async {
                   final XFile? image =
                       await _picker.pickImage(source: ImageSource.gallery);
+
                   setState(() {
                     imagePath = image!;
                   });
@@ -538,57 +687,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 25,
-                ),
-                Text('ประเภท : ',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'NotoSansThai')),
-                Container(
-                  padding: EdgeInsets.only(left: 0, right: 0),
-                  height: 60,
-                  width: 265,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    /*border: Border.all(
-                    color: Color.fromRGBO(251, 182, 6, 1),
-                    width: 3,
-                  ),*/
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  child: ListTile(
-                    //title: const Text('ประเภทคลินิก  :'),
-                    title: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        // Must be one of items.value.
-                        value: _typeWaiting,
-                        hint: Text(
-                            'สหคลินิก' /*'${AddClinicuser.typeclinicuser != "" ? (AddClinicuser.typeclinicuser) : "สหคลินิก"}'*/,
-                            style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'NotoSansThai')),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() =>
-                                // AddClinicuser.typeclinicuser = newValue;
-                                _typeWaiting = newValue);
-                          }
-                        },
-
-                        items: this._dropDownMenuItems,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            buildtype(size),
             SizedBox(
               height: 10,
             ),
@@ -608,53 +707,7 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                Text('รถที่สะดวก : ',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'NotoSansThai')),
-                Container(
-                  alignment: Alignment.topLeft,
-                  padding: EdgeInsets.only(left: 0, right: 0),
-                  height: 60,
-                  width: 245,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    /*border: Border.all(
-                          color: Color.fromRGBO(251, 182, 6, 1), width: 3),*/
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  child: ListTile(
-                    title: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _vehicleWaiting,
-                        hint: const Text(
-                            'รถทุกชนิด' /*'${AddClinicuser.vehicleclinicuser != "" ? (AddClinicuser.vehicleclinicuser) : "รถทุกชนิด1"}'*/,
-                            style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                fontFamily: 'NotoSansThai')),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() =>
-                                //AddClinicuser.vehicleclinicuser = newValue;
-                                _vehicleWaiting = newValue);
-                          }
-                        },
-                        items: _dropDownMenuItems2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            buildcar(size),
             SizedBox(
               height: 10,
             ),
@@ -769,23 +822,63 @@ class _AddclinicScreenState extends State<AddclinicScreen> {
           height: 60,
           color: Color.fromRGBO(251, 182, 6, 1),
           onPressed: () async {
-            if (formKey.currentState!.validate()) {
-              final dataClinicuser = await api4.doClinicuser(
-                  _nameWaiting,
-                  _addressWaiting,
-                  _tellWaiting,
-                  _timeWaiting,
-                  _typeWaiting,
-                  _vehicleWaiting,
-                  _latitudeWaiting,
-                  _longitudeWaiting,
-                  _detailWaiting,
-                  imagePath,
-                  "");
-              print(_latitudeWaiting);
-              Navigator.push(context(), MaterialPageRoute(builder: (context) {
-                return BarScreen(index: 0);
-              }));
+            if (_nameWaiting == null ||
+                _nameWaiting.isEmpty ||
+                _addressWaiting == null ||
+                _addressWaiting.isEmpty ||
+                _tellWaiting == null ||
+                _tellWaiting.isEmpty ||
+                _timeWaiting == null ||
+                _timeWaiting.isEmpty ||
+                _typeWaiting == '-----' ||
+                _typeWaiting.isEmpty ||
+                _vehicleWaiting == '-----' ||
+                _vehicleWaiting.isEmpty ||
+                _latitudeWaiting == "0.0" ||
+                _latitudeWaiting.isEmpty ||
+                _longitudeWaiting == "0.0" ||
+                _longitudeWaiting.isEmpty ||
+                _detailWaiting == null ||
+                _detailWaiting.isEmpty) {
+              ScaffoldMessenger.of(context()).showSnackBar(
+                  SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบถ้วน!")));
+              if (_latitudeWaiting == "0.0" ||
+                  _latitudeWaiting.isEmpty ||
+                  _longitudeWaiting == "0.0" ||
+                  _longitudeWaiting.isEmpty) {
+                ScaffoldMessenger.of(context()).showSnackBar(
+                    SnackBar(content: Text("กรุณาเพิ่มค่าละติจูดลองติจูด!")));
+              }
+              if (_typeWaiting == '-----' || _typeWaiting.isEmpty) {
+                ScaffoldMessenger.of(context()).showSnackBar(
+                    SnackBar(content: Text("กรุณาเลือกประเภทของคลินิก!")));
+              }
+              if (_vehicleWaiting == '-----' || _vehicleWaiting.isEmpty) {
+                ScaffoldMessenger.of(context()).showSnackBar(
+                    SnackBar(content: Text("กรุณาเลือกรถที่สะดวกต่อการจอด!")));
+              }
+            } else {
+              if (formKey.currentState!.validate()) {
+                final dataClinicuser = await api4.doClinicuser(
+                    _nameWaiting,
+                    _addressWaiting,
+                    _tellWaiting,
+                    _timeWaiting,
+                    _typeWaiting,
+                    _vehicleWaiting,
+                    _latitudeWaiting,
+                    _longitudeWaiting,
+                    _detailWaiting,
+                    imagePath,
+                    "");
+                print(_latitudeWaiting);
+                Dio().put('${Config.url}/editwarn', data: {"read_warn": 1});
+                ScaffoldMessenger.of(context()).showSnackBar(
+                    SnackBar(content: Text("บันทึกข้อมูลเรียบร้อย")));
+                Navigator.push(context(), MaterialPageRoute(builder: (context) {
+                  return BarScreen(index: 0);
+                }));
+              }
             }
           },
           child: Row(

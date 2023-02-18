@@ -5,18 +5,20 @@ class AddMap {
 
 class AddClinicuser {
   static var nameclinicuser = "";
-  static var typeclinicuser = "";
+  static var typeclinicuser = '-----';
   static var addressclinicuser = "";
   static var tellclinicuser = "";
   static var detailclinicuser = "";
   static var timeclinicuser = "";
-  static var vehicleclinicuser = "";
+  static var vehicleclinicuser = "-----";
   static var imgclinicuser = "";
 }
 
 class Config {
-  static var url = "http://192.168.20.216:3333";
-  static var urlUploadImage = "http://192.168.20.216:5000";
+  static var url = "https://dead-pear-tortoise-vest.cyclic.app";
+  static var urlUploadImage = "https://dead-pear-tortoise-vest.cyclic.app";
+  //static var url = "http://192.168.20.216:3333";
+  //static var urlUploadImage = "http://192.168.20.216:5000";
 }
 
 class User {

@@ -5,9 +5,10 @@ import 'dart:io';
 
 import 'package:animated_button/animated_button.dart';
 import 'package:clinicapp/admin/approve.dart';
+import 'package:clinicapp/admin/baradmin.dart';
+import 'package:clinicapp/screen/wellcome.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:clinicapp/admin/crud.dart';
 import 'package:clinicapp/api/apiclinic.dart';
 import 'package:clinicapp/screen/Bar.dart';
 import 'package:clinicapp/api/apiclinicwaiting.dart';
@@ -97,28 +98,51 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row buildName(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          decoration: new InputDecoration(
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          onChanged: (value) {
-            setState(() {
-              _nameClinics = value;
-            });
-          },
-          initialValue: widget.data["name_waiting"],
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'กรอกชื่อคลินิก';
-            }
-            return null;
-          },
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ชื่อคลินิก : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _nameClinics = value;
+                  });
+                },
+                initialValue: widget.data["name_waiting"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรอกชื่อคลินิก';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
       )
     ]);
@@ -127,25 +151,51 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row buildAddresse(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          decoration: new InputDecoration(
-            //labelText: ("ที่อยู่คลินิก"),
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          initialValue: widget.data["address_waiting"],
-          onChanged: (value) => _addressClinics = value,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'กรอกที่อยู่คลินิก';
-            }
-            return null;
-          },
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ที่อยู่ : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _addressClinics = value;
+                  });
+                },
+                initialValue: widget.data["address_waiting"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรอกที่อยู่คลินิก';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
       )
     ]);
@@ -154,25 +204,51 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row buildTime(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          decoration: new InputDecoration(
-            //labelText: ("เวลาเปิด-ปิด"),
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          initialValue: widget.data["time_waiting"],
-          onChanged: (value) => _timeClinics = value,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'กรอกเวลาทำการของคลินิก';
-            }
-            return null;
-          },
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('เวลา : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _timeClinics = value;
+                  });
+                },
+                initialValue: widget.data["time_waiting"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรอกเวลาทำการของคลินิก';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
       )
     ]);
@@ -181,25 +257,51 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row builddetail(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          decoration: new InputDecoration(
-            //labelText: ("เวลาเปิด-ปิด"),
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          initialValue: widget.data["detail_waiting"],
-          onChanged: (value) => _detailClinics = value,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'กรอกรายละเอียดคลินิก';
-            }
-            return null;
-          },
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('รายละเอียด : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _detailClinics = value;
+                  });
+                },
+                initialValue: widget.data["detail_waiting"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรอกรายละเอียดคลินิก';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
       )
     ]);
@@ -208,52 +310,57 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row buildTell(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          keyboardType: TextInputType.phone,
-          decoration: new InputDecoration(
-            //labelText: ("เบอร์โทรคลินิก"),
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          initialValue: widget.data["tell_waiting"],
-          onChanged: (value) => _tellClinics = value,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'กรอกเบอร์โทร';
-            }
-            return null;
-          },
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
         ),
-      )
-    ]);
-  }
-
-  Row buildImg(double size) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          decoration: new InputDecoration(
-            //labelText: ("ลิงค์รูปภาพ"),
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          onChanged: (value) => _imgClinics = value,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'กรอกเบอร์โทร';
-            }
-            return null;
-          },
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('เบอร์โทร : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  cursorColor: Color.fromARGB(255, 0, 0, 0),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    // hintText: 'ชื่อคลินิก',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _tellClinics = value;
+                    });
+                  },
+                  initialValue: widget.data["tell_waiting"],
+                  validator: ((value) {
+                    if (value == null || value.isEmpty) {
+                      return 'กรุณากรอกเบอร์โทร';
+                    } else if (value[0] != "0") {
+                      return 'รูปแบบเบอร์โทรไม่ถูกต้อง';
+                    } else if (value.length <= 9) {
+                      return 'จำนวนเบอร์โทรไม่ถูกต้อง';
+                    } else if (value.length > 10) {
+                      return 'จำนวนเบอร์โทรไม่ถูกต้อง';
+                    }
+                    return null;
+                  })),
+            ),
+          ],
         ),
       )
     ]);
@@ -262,20 +369,52 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row buildlatitude(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 180,
-        height: 70,
-        child: TextFormField(
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          decoration: new InputDecoration(
-            //labelText: ('ค่าละติจูด'),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true,
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          initialValue: widget.data["latitude_waiting"],
-          onChanged: (value) => _latitudeClinics = value,
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ค่าละติจูด : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _latitudeClinics = value;
+                  });
+                },
+                initialValue: widget.data["latitude_waiting"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรอกค่าละติจูด';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
       )
     ]);
@@ -284,45 +423,231 @@ class _Add2ScreenState extends State<Add2Screen> {
   Row buildlongitude(double size) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        width: 180,
-        height: 70,
-        child: TextFormField(
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          decoration: new InputDecoration(
-            //labelText: ('ค่าลองติจูด'),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-            filled: true, //<-- SEE HERE
-            fillColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          initialValue: widget.data["longitude_waiting"],
-          onChanged: (value) => _longitudeClinics = value,
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ค่าลองจิจูด : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _longitudeClinics = value;
+                  });
+                },
+                initialValue: widget.data["longitude_waiting"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรอกค่าลองจิจูด';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
       )
     ]);
   }
 
-  String _typeClinics = 'สหคลินิก';
+  Row buildsearch(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('อาการป่วย : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: TextFormField(
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  // hintText: 'ชื่อคลินิก',
+                ),
+                onChanged: (value) => _searchClinics = value,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกอาการป่วย';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  Row buildtype(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ประเภท : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: ListTile(
+                //title: const Text('ประเภทคลินิก  :'),
+                title: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    isExpanded: false,
+                    isDense: false,
+                    // Must be one of items.value.
+                    value: widget.data["type_waiting"].toString(),
+                    hint: const Text('-----',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          widget.data["type_waiting"] = newValue;
+                          _typeClinics = newValue;
+                        });
+                      }
+                    },
+                    items: this._dropDownMenuItems,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  Row buildcar(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('รถที่สะดวก : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: ListTile(
+                title: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: widget.data["vehicle_waiting"].toString(),
+                    hint: const Text('-----',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          widget.data["vehicle_waiting"] = newValue;
+                          _vehicleclinics = newValue;
+                        });
+                      }
+                    },
+                    items: _dropDownMenuItems2,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  String _typeClinics = '-----';
   // ignore: unused_field
-  String _vehicleclinics = 'รถทุกชนิด';
+  String _vehicleclinics = '-----';
 
   static const menuItems = <String>[
+    '-----',
     'สหคลินิก',
     'คลินิกสัตว์',
     'กุมารเวชกรรม',
     'ทันตกรรม',
-    'การพยาบาลและการผดุงครรค์',
+    'พยาบาลและการผดุงครรค์',
     'ศัลยกรรมกระดูกและข้อ',
     'กายยภาพบำบัด',
     'เทคนิคการแพทย์',
     'การแพทย์แผนไทย',
-    'เทคโนโลยีหัวใจและทรวงอก',
+    'หัวใจและทรวงอก',
     'การแพทย์แผนจีน',
     'รังสีเทคนิก',
     'จิตวิทยาคลินิก',
     'กายอุปกรณ์',
-    'กิจกรรมบำบัด'
+    'กิจกรรมบำบัด',
+    'ฝังเข็ม',
+    'สมองและระบบประสาท',
+    'ระบบทางเดินอาหารและตับ'
   ];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map(
@@ -334,6 +659,7 @@ class _Add2ScreenState extends State<Add2Screen> {
       .toList();
 
   static const menuItems2 = <String>[
+    '-----',
     'รถทุกชนิด',
     'รถจักรยานยนต์',
   ];
@@ -365,25 +691,49 @@ class _Add2ScreenState extends State<Add2Screen> {
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 170, 170, 170),
+      backgroundColor: Color.fromRGBO(124, 185, 163, 1),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            {
-              Navigator.pop(context);
-            }
-          },
-        ),
+        backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Image.asset(
-          "images/search.png",
-          width: 50,
+        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+            style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansThai')),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
         ),
-        backgroundColor: Color.fromRGBO(41, 52, 48, 1),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BarAdminScreen(
+                index: 2,
+              );
+            }));
+          },
+          child: Icon(
+            Icons.arrow_back_outlined,
+            size: 26.0,
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WellcomeScreen();
+                  }));
+                },
+                child: Icon(
+                  Icons.logout,
+                  size: 26.0,
+                ),
+              )),
+        ],
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -392,242 +742,17 @@ class _Add2ScreenState extends State<Add2Screen> {
           key: formKey,
           child: SingleChildScrollView(
               child: Column(children: [
-            Text("ทำการอนุมัติคลินิก"),
             SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('ชื่อคลินิกvb',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            buildName(size),
-            SizedBox(
-              height: 0,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('ประเภทของคลินิก',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 0, right: 0),
-              height: 60,
-              width: 370,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    width: 3,
-                  ),
-                  color: Colors.white),
-              child: ListTile(
-                //title: const Text('ประเภทคลินิก  :'),
-                title: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    isExpanded: false,
-                    isDense: false,
-                    // Must be one of items.value.
-                    value: widget.data["type_waiting"].toString(),
-                    hint: const Text('1',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                        )),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() => _typeClinics = newValue);
-                      }
-                    },
-                    items: this._dropDownMenuItems,
-                  ),
-                ),
-              ),
-            ),
+            Text("ทำการอนุมัติคลินิก",
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    fontFamily: 'NotoSansThai')),
             SizedBox(
               height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('ที่อยู่คลินิก',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            buildAddresse(size),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('การติดต่อ',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            buildTell(size),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('เวลาทำการของคลินิก',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            buildTime(size),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('รายละเอียดของคลินิก',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            builddetail(size),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('แนะนำรถที่สะดวกต่อการจอดรถ',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 0, right: 0),
-              height: 60,
-              width: 370,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(width: 3),
-                  color: Colors.white),
-              child: ListTile(
-                title: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _vehicleclinics,
-                    /* hint: const Text('รถทุกชนิด',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                        )),*/
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() => _vehicleclinics = newValue);
-                      }
-                    },
-                    items: _dropDownMenuItems2,
-                  ),
-                ),
-              ),
-            ),
-
-            ///
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: [
-                Container(
-                  width: 180,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text('ค่าละติจูด',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          )),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 180,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text('ค่าลองติจูด',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          )),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildlatitude(size),
-                buildlongitude(size),
-              ],
-            ),
-            TextFormField(
-              decoration: new InputDecoration(
-                //labelText: ("เวลาเปิด-ปิด"),
-                border: myinputborder(),
-                enabledBorder: myinputborder(),
-                focusedBorder: myfocusborder(),
-                filled: true,
-                fillColor: Color.fromARGB(255, 255, 255, 255),
-              ),
-              onChanged: (value) => _searchClinics = value,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'กรอกเวลา';
-                }
-                return null;
-              },
-            ),
-
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('รูปภาพ',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -664,12 +789,70 @@ class _Add2ScreenState extends State<Add2Screen> {
             SizedBox(
               height: 10,
             ),
+            buildName(size),
+            SizedBox(
+              height: 10,
+            ),
+            buildtype(size),
+
+            SizedBox(
+              height: 10,
+            ),
+
+            buildAddresse(size),
+            SizedBox(
+              height: 10,
+            ),
+
+            buildTell(size),
+            SizedBox(
+              height: 5,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            buildTime(size),
+            SizedBox(
+              height: 10,
+            ),
+
+            builddetail(size),
+            SizedBox(
+              height: 10,
+            ),
+            buildcar(size),
+
+            ///
+            SizedBox(
+              height: 10,
+            ),
+            buildlatitude(size),
+            SizedBox(
+              height: 10,
+            ),
+            buildlongitude(size),
+            SizedBox(
+              height: 10,
+            ),
+
+            buildsearch(size),
+            SizedBox(
+              height: 10,
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildCreatClinic(context),
                 buildCreatnoClinic(context)
               ],
+            ),
+            SizedBox(
+              height: 10,
             ),
           ])),
         ),
@@ -679,7 +862,7 @@ class _Add2ScreenState extends State<Add2Screen> {
 
   AnimatedButton buildCreatClinic(context) {
     return AnimatedButton(
-      color: Color.fromRGBO(79, 101, 93, 1),
+      color: Color.fromRGBO(251, 182, 6, 1),
       width: 180,
       height: 60,
       onPressed: () async {
@@ -704,33 +887,94 @@ class _Add2ScreenState extends State<Add2Screen> {
           print(dataClinicadmin);
 
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return CrudScreen();
+            return BarAdminScreen(
+              index: 2,
+            );
           }));
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: Image.asset(
+                            "images/green.png",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("ทำการอนุมัติเรียบร้อยเเล้ว",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontFamily: 'NotoSansThai')),
+                      ],
+                    ),
+                  ),
+                );
+              });
         }
       },
-      child: Text(
-        'บันทึกข้อมูล',
-        style: TextStyle(fontSize: 25, color: Color.fromRGBO(251, 182, 6, 1)),
-      ),
+      child: Text('อนุมัติ',
+          style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(0, 0, 0, 1),
+              fontFamily: 'NotoSansThai')),
     );
   }
 
   AnimatedButton buildCreatnoClinic(context) {
     return AnimatedButton(
-      color: Color.fromRGBO(79, 101, 93, 1),
+      color: Color.fromRGBO(251, 182, 6, 1),
       width: 180,
       height: 60,
       onPressed: () {
-        print(widget.data);
         deleteawaiting(widget.data["id_waiting"]);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ApproveScreen();
+          return BarAdminScreen(
+            index: 2,
+          );
         }));
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: Image.asset(
+                          "images/red.png",
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("ทำการไม่อนุมัติเรียบร้อยเเล้ว",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontFamily: 'NotoSansThai')),
+                    ],
+                  ),
+                ),
+              );
+            });
       },
-      child: Text(
-        'ไม่อนุมัติ',
-        style: TextStyle(fontSize: 25, color: Color.fromRGBO(251, 182, 6, 1)),
-      ),
+      child: Text('ไม่อนุมัติ',
+          style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(0, 0, 0, 1),
+              fontFamily: 'NotoSansThai')),
     );
   }
 
@@ -767,4 +1011,3 @@ class _Add2ScreenState extends State<Add2Screen> {
     });
   }
 }
-//มึงดึงตัวแปรไม่ถูกอะ ลองปริ้นก่อนว่าข้อมูลมันมาแบบไหนอะ กุเอา 2 ตารางมาผสมกันอ้ะ กุไม่รุ้จะอุนมัติเเบบไหนมึงลองดูดิ

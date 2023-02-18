@@ -115,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text("ชื่อผู้ใช้",
                 style: TextStyle(
                     color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
                     fontSize: 20,
                     fontFamily: 'NotoSansThai')),
             SizedBox(
@@ -124,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text('ชื่อ - นามสกุล : ',
+                child: Text('ชื่อจริง : ',
                     style: TextStyle(
                         color: Color.fromRGBO(0, 0, 0, 1),
                         fontWeight: FontWeight.bold,
@@ -132,48 +133,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontFamily: 'NotoSansThai')),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    width: 170,
-                    height: 50,
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      //color: Color.fromRGBO(255, 255, 255, 1),
-                    ),
-                    child: Text(User.userData["firstname_member"],
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            fontFamily: 'NotoSansThai'))
-                    //TextFormField(initialValue: User.userData["username_member"]),
-                    ),
-                SizedBox(
-                  width: 7,
+            Container(
+                width: 350,
+                height: 50,
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  //color: Color.fromRGBO(255, 255, 255, 1),
                 ),
-                Container(
-                    width: 170,
-                    height: 50,
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      // color: Color.fromRGBO(255, 255, 255, 1),
-                    ),
-                    child: Text(User.userData["lastname_member"],
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            fontFamily: 'NotoSansThai'))
-                    //TextFormField(initialValue: User.userData["username_member"]),
-                    ),
-              ],
+                child: Text(User.userData["firstname_member"],
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        fontFamily: 'NotoSansThai'))
+                //TextFormField(initialValue: User.userData["username_member"]),
+                ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('นามสกุล : ',
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        fontFamily: 'NotoSansThai')),
+              ),
             ),
+            Container(
+                width: 350,
+                height: 50,
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  //color: Color.fromRGBO(255, 255, 255, 1),
+                ),
+                child: Text(User.userData["lastname_member"],
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        fontFamily: 'NotoSansThai'))
+                //TextFormField(initialValue: User.userData["username_member"]),
+                ),
             Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Align(
@@ -233,9 +238,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 //TextFormField(initialValue: User.userData["username_member"]),
                 ),
             SizedBox(
-              height: 30,
+              height: 10,
             ),
             editButton(),
+            SizedBox(
+              height: 10,
+            ),
           ],
         )),
       ),
@@ -244,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget editButton() => Container(
         child: AnimatedButton(
-          width: 200,
+          width: 250,
           height: 60,
           color: Color.fromRGBO(251, 182, 6, 1),
           onPressed: () async {

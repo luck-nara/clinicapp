@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:clinicapp/admin/add.dart';
 import 'package:clinicapp/admin/approve.dart';
-import 'package:clinicapp/admin/crud.dart';
 import 'package:clinicapp/admin/editclinic.dart';
 import 'package:clinicapp/admin/loginadmin.dart';
 import 'package:clinicapp/screen/dataclinic.dart';
@@ -23,7 +22,7 @@ class IndexadminScreen extends StatefulWidget {
 
 class _IndexadminScreenState extends State<IndexadminScreen> {
   var _data;
-
+  var sda;
   set searchValue(String searchValue) {}
   TextEditingController _searchController = new TextEditingController();
   String name = "";
@@ -46,6 +45,18 @@ class _IndexadminScreenState extends State<IndexadminScreen> {
     print("gg");
     getClinic();
     print(_data);
+    test();
+  }
+
+  Future<void> test() async {
+    final test = await Dio().get("${Config.url}/getwarn");
+    print("wwww");
+    print(test.data);
+    setState(() {
+      sda = test.data["data"][0]["read_warn"];
+      print("กกกกก");
+      print(sda);
+    });
   }
 
   @override
@@ -101,6 +112,14 @@ class _IndexadminScreenState extends State<IndexadminScreen> {
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
                     fontFamily: 'NotoSansThai')),
+            sda == 1
+                ? Text("มีคลินิกที่รอนุมัติเพิ่มมาใหม่",
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 0, 0, 1),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: 'NotoSansThai'))
+                : Container(),
             SizedBox(
               height: 20,
             ),
@@ -150,6 +169,7 @@ class _IndexadminScreenState extends State<IndexadminScreen> {
                                         children: [
                                           Text(
                                               "${_data["data"][i]["name_clinics"].toString()}",
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       0, 0, 0, 1),
@@ -241,6 +261,13 @@ class _IndexadminScreenState extends State<IndexadminScreen> {
                                                                       [i]);
                                                               Navigator.pop(
                                                                   context);
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(
+                                                                      SnackBar(
+                                                                          content:
+                                                                              Text("ลบคลินิกเรียบร้อยเเล้ว")));
                                                             },
                                                             child: const Text(
                                                                 'ใช่',

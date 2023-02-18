@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animated_button/animated_button.dart';
-import 'package:clinicapp/admin/crud.dart';
+import 'package:clinicapp/admin/baradmin.dart';
+import 'package:clinicapp/api/apiclinic.dart';
 import 'package:clinicapp/screen/Bar.dart';
 import 'package:clinicapp/api/apiclinicwaiting.dart';
 import 'package:clinicapp/screen/profile/profile.dart';
@@ -51,8 +52,9 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
   String _longitudeClinics = "";
   // ignore: unused_field
   String _searchClinics = "";
-
-  ApiProviders api3 = ApiProviders();
+  ApiProvidersadmin api3 = ApiProvidersadmin();
+  ApiProviders api4 = ApiProviders();
+  final formKey = GlobalKey<FormState>();
   //Register api = Register();
 
   // ignore: unused_field
@@ -99,20 +101,21 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
   }
 
   // ignore: unused_field
-  String _btn1SelectedVal = 'สหคลินิก';
+  String _btn1SelectedVal = '-----';
   // ignore: unused_field
-  String _btn2SelectedVal = 'รถทุกชนิด';
+  String _btn2SelectedVal = '-----';
   static const menuItems = <String>[
+    '-----',
     'สหคลินิก',
     'คลินิกสัตว์',
     'กุมารเวชกรรม',
     'ทันตกรรม',
-    'การพยาบาลและการผดุงครรค์',
+    'พยาบาลและการผดุงครรค์',
     'ศัลยกรรมกระดูกและข้อ',
     'กายยภาพบำบัด',
     'เทคนิคการแพทย์',
     'การแพทย์แผนไทย',
-    'เทคโนโลยีหัวใจและทรวงอก',
+    'หัวใจและทรวงอก',
     'การแพทย์แผนจีน',
     'รังสีเทคนิก',
     'จิตวิทยาคลินิก',
@@ -120,7 +123,9 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
     'กิจกรรมบำบัด',
     'ผิวหนัง',
     'สูตินรีเวช',
-    'ฝังเข็ม'
+    'ฝังเข็ม',
+    'สมองและระบบประสาท',
+    'ระบบทางเดินอาหารและตับ'
   ];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map(
@@ -132,6 +137,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
       .toList();
 
   static const menuItems2 = <String>[
+    '-----',
     'รถทุกชนิด',
     'รถจักรยานยนต์',
   ];
@@ -208,6 +214,12 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                 ),
                 onChanged: (value) => _nameClinics = value,
                 initialValue: widget.data["name_clinics"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกชื่อคลินิก !';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
@@ -251,6 +263,12 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                 ),
                 onChanged: (value) => _addressClinics = value,
                 initialValue: widget.data["address_clinics"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกที่อยู่ของคลินิก !';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
@@ -281,6 +299,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                  keyboardType: TextInputType.number,
                   cursorColor: Color.fromARGB(255, 0, 0, 0),
                   style: TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
@@ -346,6 +365,12 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                 ),
                 onChanged: (value) => _timeClinics = value,
                 initialValue: widget.data["time_clinics"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกเวลาทำการของคลินิก !';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
@@ -376,6 +401,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -389,28 +415,15 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                 ),
                 onChanged: (value) => _latitudeClinics = value,
                 initialValue: widget.data["latitude_clinics"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกค่าละติจูด !';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
-        ),
-      )
-    ]);
-  }
-
-  Row buildimg(double size) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Container(
-        width: 370,
-        height: 70,
-        child: TextFormField(
-          decoration: new InputDecoration(
-            //  labelText: (widget.data["img"].toString()),
-            border: myinputborder(),
-            enabledBorder: myinputborder(),
-            focusedBorder: myfocusborder(),
-          ),
-          onChanged: (value) => _imgClinics = value,
-          initialValue: widget.data["img_clinics"],
         ),
       )
     ]);
@@ -438,6 +451,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                     fontFamily: 'NotoSansThai')),
             Expanded(
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 cursorColor: Color.fromARGB(255, 0, 0, 0),
                 style: TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -451,6 +465,12 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                 ),
                 onChanged: (value) => _longitudeClinics = value,
                 initialValue: widget.data["longitude_clinics"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกค่าลองจิจูด !';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
@@ -473,7 +493,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
             borderRadius: BorderRadius.circular(5)),
         child: Row(
           children: [
-            Text('ชื่อคลินิก : ',
+            Text('รายละเอียด : ',
                 style: TextStyle(
                     color: Color.fromRGBO(0, 0, 0, 1),
                     fontWeight: FontWeight.bold,
@@ -494,6 +514,112 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
                 ),
                 onChanged: (value) => _detailClinics = value,
                 initialValue: widget.data["detail_clinics"],
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'กรุณากรอกรายละเอียดของคลินิก !';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  Row buildtype(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('ประเภท : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: ListTile(
+                //title: const Text('ประเภทคลินิก  :'),
+                title: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    // Must be one of items.value.
+                    value: widget.data["type_clinics"],
+                    hint: const Text('-----',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          widget.data["type_clinics"] = newValue;
+                          _btn1SelectedVal = newValue;
+                        });
+                      }
+                    },
+                    items: this._dropDownMenuItems,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
+
+  Row buildcar(double size) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: 350,
+        height: 60,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(5)),
+        child: Row(
+          children: [
+            Text('รถที่สะดวก : ',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontFamily: 'NotoSansThai')),
+            Expanded(
+              child: ListTile(
+                title: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: widget.data["vehicle_clinics"],
+                    hint: const Text('-----',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          widget.data["vehicle_clinics"] = newValue;
+                          _btn2SelectedVal = newValue;
+                        });
+                      }
+                    },
+                    items: this._dropDownMenuItems2,
+                  ),
+                ),
               ),
             ),
           ],
@@ -569,6 +695,15 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
             SizedBox(
               height: 10,
             ),
+            Text('แก้ไขข้อมูลคลินิก',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSansThai')),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -606,52 +741,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 25,
-                ),
-                Text('ประเภท : ',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'NotoSansThai')),
-                Container(
-                  padding: EdgeInsets.only(left: 0, right: 0),
-                  height: 60,
-                  width: 265,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    /*border: Border.all(
-                    color: Color.fromRGBO(251, 182, 6, 1),
-                    width: 3,
-                  ),*/
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  child: ListTile(
-                    //title: const Text('ประเภทคลินิก  :'),
-                    title: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        // Must be one of items.value.
-                        value: _btn1SelectedVal,
-                        hint: const Text('1',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            )),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() => _btn1SelectedVal = newValue);
-                          }
-                        },
-                        items: this._dropDownMenuItems,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            buildtype(size),
 
             SizedBox(
               height: 10,
@@ -672,48 +762,7 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                Text('รถที่สะดวก : ',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'NotoSansThai')),
-                Container(
-                  padding: EdgeInsets.only(left: 0, right: 0),
-                  height: 60,
-                  width: 245,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    /*border: Border.all(
-                          color: Color.fromRGBO(251, 182, 6, 1), width: 3),*/
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  child: ListTile(
-                    title: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _btn2SelectedVal,
-                        hint: const Text('1',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            )),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() => _btn2SelectedVal = newValue);
-                          }
-                        },
-                        items: this._dropDownMenuItems2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            buildcar(size),
 
             //buildvehicle(size),,
             SizedBox(
@@ -769,69 +818,95 @@ class _EditclinicScreenState extends State<EditclinicScreen> {
             SizedBox(
               height: 10,
             ),
-            buildCreatClinic(context),
+            CreatClinicButton(),
+            SizedBox(
+              height: 10,
+            ),
           ])),
         ),
       ),
     );
   }
 
-  AnimatedButton buildCreatClinic(context) {
-    return AnimatedButton(
-      color: Color.fromRGBO(79, 101, 93, 1),
-      width: 370,
-      height: 60,
-      onPressed: () {
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            //title: const Text('ตำเเหน่งปัจจุบัน'),
-            content: Text("ยืนยันการแก้ไข้ข้อมูลคิลนิก"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'ยกเลิก'),
-                child: const Text('ยกเลิก'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  print(_nameClinics);
-                  var res = await Dio().put("${Config.url}/editclinic", data: {
-                    "name_clinics": _nameClinics,
-                    "address_clinics": _addressClinics,
-                    "tell_clinics": _tellClinics,
-                    "time_clinics": _timeClinics,
-                    "type_clinics": _btn1SelectedVal,
-                    "detail_clinics": _detailClinics,
-                    "vehicle_clinics": _btn2SelectedVal,
-                    "latitude_clinics": _latitudeClinics,
-                    "longitude_clinics": _longitudeClinics,
-                    "search_clinics": _searchClinics,
-                    "img_clinics": imagePath,
-                    "id_clinics": widget.data["id_clinics"]
-                  });
-
-                  var resJson = json.decode(res.toString());
-                  print(resJson);
-                  // Navigator.pop(context);
-                  await Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CrudScreen(),
-                    ),
-                  );
-                },
-                child: Text("บันทึก"),
+  Widget CreatClinicButton() => Container(
+        child: AnimatedButton(
+          width: 200,
+          height: 60,
+          color: Color.fromRGBO(251, 182, 6, 1),
+          onPressed: () async {
+            print("hhhhhhhhhhh");
+            print(_nameClinics);
+            ApiProvidersadmin api = ApiProvidersadmin();
+            if (_btn1SelectedVal == '-----' || _btn1SelectedVal.isEmpty) {
+              ScaffoldMessenger.of(context()).showSnackBar(
+                  SnackBar(content: Text("กรุณาเลือกประเภทของคลินิก!")));
+            }
+            if (_btn2SelectedVal == '-----' || _btn2SelectedVal.isEmpty) {
+              ScaffoldMessenger.of(context()).showSnackBar(
+                  SnackBar(content: Text("กรุณาเลือกรถที่สะดวกต่อการจอด!")));
+            }
+            if (_nameClinics == null ||
+                _nameClinics.isEmpty ||
+                _addressClinics == null ||
+                _addressClinics.isEmpty ||
+                _tellClinics == null ||
+                _tellClinics.isEmpty ||
+                _timeClinics == null ||
+                _timeClinics.isEmpty ||
+                _btn1SelectedVal == '-----' ||
+                _btn1SelectedVal.isEmpty ||
+                _btn2SelectedVal == '-----' ||
+                _btn2SelectedVal.isEmpty ||
+                _latitudeClinics == null ||
+                _latitudeClinics.isEmpty ||
+                _longitudeClinics == null ||
+                _longitudeClinics.isEmpty ||
+                _detailClinics == null ||
+                _detailClinics.isEmpty ||
+                _searchClinics == null ||
+                _searchClinics.isEmpty) {
+              ScaffoldMessenger.of(context()).showSnackBar(
+                  SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบถ้วน!")));
+            } else {
+              final res = await api.putClinic(
+                  widget.data["id_clinics"],
+                  _nameClinics,
+                  _addressClinics,
+                  _tellClinics,
+                  _imgClinics,
+                  _timeClinics,
+                  _btn1SelectedVal,
+                  _detailClinics,
+                  _btn2SelectedVal,
+                  _latitudeClinics,
+                  _longitudeClinics,
+                  imagePath,
+                  widget.data["img_clinics"],
+                  _searchClinics);
+              print(res);
+              Navigator.push(context(), MaterialPageRoute(builder: (context) {
+                return BarAdminScreen(index: 0);
+              }));
+              ScaffoldMessenger.of(context()).showSnackBar(
+                  SnackBar(content: Text("แก้ไขข้อมูลเรียบร้อย")));
+            }
+          },
+          child: Row(
+            children: [
+              SizedBox(
+                  height: 30, width: 60, child: Image.asset("images/save.png")),
+              Text(
+                'บันทึกข้อมูล',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontFamily: 'NotoSansThai'),
               ),
             ],
           ),
-        );
-      },
-      child: Text(
-        'บันทึกการแก้ไข้',
-        style: TextStyle(fontSize: 25, color: Color.fromRGBO(251, 182, 6, 1)),
-      ),
-    );
-  }
+        ),
+      );
 
   OutlineInputBorder myinputborder() {
     //return type is OutlineInputBorder

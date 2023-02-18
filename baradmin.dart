@@ -15,8 +15,11 @@ import 'package:clinicapp/screen/search/searchdisease.dart';
 import 'package:clinicapp/screen/search/searchdistrict.dart';
 import 'package:clinicapp/screen/search/searchname.dart';
 import 'package:clinicapp/screen/setting.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../utility/add.dart';
 
 // ignore: must_be_immutable
 class BarAdminScreen extends StatefulWidget {
@@ -34,13 +37,33 @@ class BarAdminScreen extends StatefulWidget {
 
 class _BarAdminScreenState extends State<BarAdminScreen> {
   int _selectedIndex = 0;
+  dynamic? sda = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    test();
+    print("กกกกก");
+  }
+
+  Future<void> test() async {
+    final test = await Dio().get("${Config.url}/getwarn");
+    print("wwww");
+    print(test.data);
+    setState(() {
+      sda = test.data["data"][0]["read_warn"];
+      print("กกกกก");
+      print(sda);
+    });
+  }
 
   final List<Widget> _pageWidget = <Widget>[
     IndexadminScreen(),
     AddScreen(),
     ApproveScreen(),
   ];
-  final List<BottomNavigationBarItem> _menuBar = <BottomNavigationBarItem>[
+  var a = 1;
+  List<BottomNavigationBarItem> _menuBar = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: SizedBox(
           height: 30, width: 60, child: Image.asset("images/home.png")),
@@ -72,6 +95,7 @@ class _BarAdminScreenState extends State<BarAdminScreen> {
     print(widget.index);
     print("22222222222");
     print(_selectedIndex);
+
     return Scaffold(
       body: _pageWidget.elementAt(widget.index ?? _selectedIndex),
       bottomNavigationBar: SizedBox(

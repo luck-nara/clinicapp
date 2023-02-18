@@ -77,7 +77,7 @@ class ApiProvider {
 
   Future<dynamic> doLoginadmin(String userAdmin, String passwordAdmin) async {
     // ignore: unused_local_variable
-    final api3 = '${Config.url}/loginadmin';
+    final String api3 = '${Config.url}/loginadmin';
     print(userAdmin + passwordAdmin);
     // ignore: unused_local_variable
     final data = {"user_admin": userAdmin, "password_admin": passwordAdmin};
