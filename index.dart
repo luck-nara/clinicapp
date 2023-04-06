@@ -67,30 +67,9 @@ class _IndexScreenState extends State<IndexScreen> {
     }
 
     _position = await Geolocator.getCurrentPosition();
-    // print(widget.data["latitude_clinics"]);
-    // print(widget.data["longitude_clinics"]);
-    print("1111111111111111111");
-    //final haversineDistance = HaversineDistance();
 
-    /// Then calculate the distance between the two location objects and set a unit.
-    /// You can select between KM/MILES/METERS/NMI
-    ///
-    ///
-    ///
-    ////*
-    /*
-    final dis = haversineDistance
-        .haversine(
-            Location(_position!.latitude!, _position!.longitude!),
-            Location(double.parse(widget.data["latitude_clinics"]),
-                double.parse(widget.data["longitude_clinics"])),
-            Unit.KM)
-        .floor();
-  
-    setState(() {
-      distance = dis.toString();
-    });
-          */
+    print("1111111111111111111");
+
     print(_position);
     return _position;
   }
@@ -100,7 +79,7 @@ class _IndexScreenState extends State<IndexScreen> {
     String pathComment = "${Config.url}/getcomments";
     var data, dataHot;
     await Dio().get(path).then((value) => {data = value});
-    await Dio().get(pathComment).then((value) => {dataHot = value});
+    await Dio().get(path).then((value) => {dataHot = value});
 
     data = json.decode(data.toString());
     dataHot = json.decode(dataHot.toString());
@@ -113,13 +92,12 @@ class _IndexScreenState extends State<IndexScreen> {
     for (int i = 0; i < data["data"].length; i++) {
       // print(i.toString());
       try {
-        final dis = await haversineDistance
-            .haversine(
-                Location(position!.latitude!, position!.longitude!),
-                Location(double.parse(data["data"][i]["latitude_clinics"]),
-                    double.parse(data["data"][i]["longitude_clinics"])),
-                Unit.KM)
-            .floor();
+        final dis = await getDistance(
+            position!.latitude!,
+            position!.longitude!,
+            double.parse(data["data"][i]["latitude_clinics"]),
+            double.parse(data["data"][i]["longitude_clinics"]));
+        print(dis);
         data["data"][i]["dis"] = dis;
         //config.dart(dis);
       } catch (err) {
@@ -127,69 +105,21 @@ class _IndexScreenState extends State<IndexScreen> {
       }
     }
 
-    Map<String, dynamic> tempStar = {};
-    Map<String, dynamic> tempStarCount = {};
-    for (int i = 0; i < dataHot["data"].length; i++) {
-      dynamic tempCount =
-          tempStar[dataHot["data"][i]["id_clinics"].toString()] ?? 0;
-
-      dynamic tempCountAvg =
-          tempStarCount[dataHot["data"][i]["id_clinics"].toString()] ?? 0;
-      //print(dataHot["data"][i]["id_clinics"].toString());
-      //print(tempCountAvg);
-      tempStar[dataHot["data"][i]["id_clinics"].toString()] =
-          tempCount + dataHot["data"][i]["star_comment"];
-
-      tempStarCount[dataHot["data"][i]["id_clinics"].toString()] =
-          tempCountAvg + 1;
-
-      try {} catch (err) {
-        // data["data"][i]["dis"] = 100000000000000000000000000.0;
-      }
-    }
-
-    print(tempStar);
-    print(tempStarCount);
-
-    tempStar.forEach((key, value) {
-      tempStar[key] = value / tempStarCount[key];
+    dataHot["data"].sort((a, b) {
+      return int.parse(b["view_clinics"].toString())
+          .compareTo(int.parse(a["view_clinics"].toString()));
+      //softing on alphabetical order (Ascending order by Name String)
     });
-    print(tempStar);
-    var sortMapByValue = Map.fromEntries(tempStar.entries.toList()
-      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
-
-    print(sortMapByValue);
-
-    int countHot = 0;
-    List<dynamic> Hot = [];
-    List<dynamic> datahot = [];
-    sortMapByValue.forEach((key, value) {
-      countHot += 1;
-
-      Hot.add({"id": key, "value": value});
-    });
-
-    for (int a = 0; a < Hot.length; a++) {
-      for (int k = 0; k < data["data"].length; k++) {
-        print(Hot[a]["id"]);
-        if (data["data"][k]["id_clinics"].toString() ==
-            Hot[a]["id"].toString()) {
-          data["data"][k]["star"] = Hot[a]["value"].round();
-          ;
-          datahot.add(data["data"][k]);
-        }
-      }
-    }
 
     final temp = List.from(data["data"]);
     temp.sort((a, b) => a["dis"].compareTo(b["dis"]));
     data["data"] = temp;
     //print(temp.length);
     // print(data["data"]);
-    print(datahot);
+    print(dataHot["data"][0]["view_clinics"]);
     setState(() {
       _data = data;
-      _dataHot = datahot;
+      _dataHot = dataHot["data"];
     });
   }
 
@@ -210,7 +140,7 @@ class _IndexScreenState extends State<IndexScreen> {
           backgroundColor: Color.fromARGB(255, 10, 81, 3),
           centerTitle: true,
           title: Text(
-            'แอปพลิเคชั่นค้นหาคลินิก',
+            'แอปพลิเคชันค้นหาคลินิก',
             style: TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
                 fontSize: 25,
@@ -508,7 +438,7 @@ class _IndexScreenState extends State<IndexScreen> {
                                                               'NotoSansThai'),
                                                     ),
                                                     Text(
-                                                      "ระยะทาง ${_data["data"][i]["dis"].toString()} กิโลเมตร",
+                                                      "ระยะทาง ${_data["data"][i]["dis"].toStringAsFixed(1)} กิโลเมตร",
                                                       style: TextStyle(
                                                           color: Color.fromRGBO(
                                                               0, 0, 0, 1),
@@ -553,7 +483,7 @@ class _IndexScreenState extends State<IndexScreen> {
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: 10,
+                                itemCount: 8,
                                 itemBuilder: (context, i) {
                                   if (_dataHot[i]["type_clinics"] !=
                                       "คลินิกสัตว์") {
@@ -611,22 +541,17 @@ class _IndexScreenState extends State<IndexScreen> {
                                                             fontSize: 16,
                                                             fontFamily:
                                                                 'NotoSansThai')),
-                                                    Wrap(
-                                                        spacing:
-                                                            12, // space between two icons
-                                                        children: <Widget>[
-                                                          for (int j = 0;
-                                                              j <=
-                                                                  _dataHot[i][
-                                                                          "star"] -
-                                                                      1;
-                                                              j++)
-                                                            Icon(
-                                                              Icons.star,
-                                                              color:
-                                                                  Colors.yellow,
-                                                            ),
-                                                        ]),
+                                                    Text(
+                                                        "จำนวนยอดเข้าชม ${_dataHot[i]["view_clinics"].toString()}",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            /*fontWeight:
+                                                              FontWeight.bold,*/
+                                                            fontSize: 16,
+                                                            fontFamily:
+                                                                'NotoSansThai')),
                                                   ]),
                                                 ),
                                               ),
@@ -671,6 +596,36 @@ class _IndexScreenState extends State<IndexScreen> {
     }
     print(await Geolocator.getCurrentPosition());
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<dynamic> getDistance(double startLatitude, double startLongitude,
+      double endLatitude, double endLongitude) async {
+    String Url =
+        'https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${startLatitude},${startLongitude}&origins=${endLatitude},${endLongitude}&key=AIzaSyDEnIzwuus-huYcrDs8if_BwmvEmHUtS-w';
+    try {
+      var response = await Dio().get(Url);
+      if (response.statusCode == 200) {
+        print("pppppppppppppppppppppppppp");
+        print(response.data);
+        var distance1 =
+            response.data["rows"][0]["elements"][0]["distance"]["value"];
+        print(response.data["rows"][0]["elements"][0]["distance"]);
+        //dynamic distanceKm = distance.replaceAll('km', 'กม.');
+/*
+        setState(() {
+          distance = distance1;
+        });
+        */
+        if (distance1 == 0) {
+          return 9999999999999999;
+        }
+        return distance1 / 1000;
+      } else
+        return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Widget loginButton() => Container(

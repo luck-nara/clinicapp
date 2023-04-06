@@ -17,6 +17,7 @@ class ApiProvider {
     final api = '${Config.url}/login';
     print(usernameMember + passwordMember);
     // ignore: unused_local_variable
+    print(api);
     final data = {
       "username_member": usernameMember,
       "password_member": passwordMember
@@ -24,9 +25,10 @@ class ApiProvider {
     // ignore: unused_local_variable
 
     final dio = Dio();
+    print(api);
     Response response;
     response = await dio.post(api, data: data);
-
+    print(response);
     final dataUser = response.data;
     print(dataUser);
 

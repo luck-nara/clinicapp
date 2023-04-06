@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "แอปพลิเคชั่นค้นหาคลินิก",
+                        "แอปพลิเคชันค้นหาคลินิก",
                         style: TextStyle(
                             color: Color.fromRGBO(0, 0, 0, 1),
                             fontWeight: FontWeight.bold,

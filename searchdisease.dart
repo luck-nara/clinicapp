@@ -43,7 +43,7 @@ class _SearchdiseasScreenState extends State<SearchdiseaseScreen> {
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 10, 81, 3),
           centerTitle: true,
-          title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+          title: Text('แอปพลิเคชันค้นหาคลินิก',
               style: TextStyle(
                   color: Color.fromRGBO(255, 255, 255, 1),
                   fontSize: 25,
@@ -161,7 +161,7 @@ class _SearchdiseasScreenState extends State<SearchdiseaseScreen> {
                                             width: 20,
                                           ),
                                           Container(
-                                            width: 240,
+                                            width: 200,
                                             child: Text(
                                                 _data[i]["name_clinics"]
                                                     .toString(),

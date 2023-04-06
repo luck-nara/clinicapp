@@ -80,15 +80,13 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
     /// You can select between KM/MILES/METERS/NMI
     ///
     ///
-    final dis = haversineDistance
-        .haversine(
-            Location(_position!.latitude!, _position!.longitude!),
-            Location(double.parse(widget.data["latitude_clinics"]),
-                double.parse(widget.data["longitude_clinics"])),
-            Unit.KM)
-        .floor();
+    final dis = await getDistance(
+        _position!.latitude!,
+        _position!.longitude!,
+        double.parse(widget.data["latitude_clinics"]),
+        double.parse(widget.data["longitude_clinics"]));
     setState(() {
-      distance = dis.toString();
+      distance = dis.toStringAsFixed(1);
     });
     return _position;
   }
@@ -130,6 +128,19 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
     });
   }
 
+  Future<void> addView() async {
+    String path = "${Config.url}/editview";
+    var data;
+    print(widget.data);
+    final response = await Dio().put(path, data: {
+      "id_clinics": widget.data["id_clinics"],
+      "view_clinics": widget.data["view_clinics"] + 1
+    });
+    //print("${response} )0000");
+
+    //print(_data);
+  }
+
   void initState() {
     // TODO: implement initState
 
@@ -140,6 +151,7 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
     _getLocation();
     getComments();
     print(star + "อิอิ");
+    addView();
   }
 
   @override
@@ -149,7 +161,7 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
           appBar: AppBar(
             backgroundColor: Color.fromARGB(255, 10, 81, 3),
             centerTitle: true,
-            title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+            title: Text('แอปพลิเคชันค้นหาคลินิก',
                 style: TextStyle(
                     color: Color.fromRGBO(255, 255, 255, 1),
                     fontSize: 25,
@@ -851,5 +863,35 @@ class _DataclinicScreenState extends State<DataclinicScreen> {
     }
     print(await Geolocator.getCurrentPosition());
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<dynamic> getDistance(double startLatitude, double startLongitude,
+      double endLatitude, double endLongitude) async {
+    String Url =
+        'https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${startLatitude},${startLongitude}&origins=${endLatitude},${endLongitude}&key=AIzaSyDEnIzwuus-huYcrDs8if_BwmvEmHUtS-w';
+    try {
+      var response = await Dio().get(Url);
+      if (response.statusCode == 200) {
+        print("pppppppppppppppppppppppppp");
+        print(response.data);
+        var distance1 =
+            response.data["rows"][0]["elements"][0]["distance"]["value"];
+        print(response.data["rows"][0]["elements"][0]["distance"]);
+        //dynamic distanceKm = distance.replaceAll('km', 'กม.');
+/*
+        setState(() {
+          distance = distance1;
+        });
+        */
+        if (distance1 == 0) {
+          return 9999999999999999;
+        }
+        return distance1 / 1000;
+      } else
+        return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

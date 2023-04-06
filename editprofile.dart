@@ -75,7 +75,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+        title: Text('แอปพลิเคชันค้นหาคลินิก',
             style: TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
                 fontSize: 25,
@@ -294,6 +294,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       color: Color.fromRGBO(255, 255, 255, 1),
                     ),
                     child: TextFormField(
+                      obscureText: true,
                       decoration: new InputDecoration(
                         border: InputBorder.none,
                       ),

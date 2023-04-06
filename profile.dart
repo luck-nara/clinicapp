@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+        title: Text('แอปพลิเคชันค้นหาคลินิก',
             style: TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
                 fontSize: 25,
@@ -221,22 +221,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Container(
-                width: 350,
-                height: 50,
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  //color: Color.fromRGBO(255, 255, 255, 1),
-                ),
-                child: Text(User.userData["password_member"],
+              width: 350,
+              height: 50,
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                //color: Color.fromRGBO(255, 255, 255, 1),
+              ),
+              child: /*Text(User.userData["password_member"],
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: Color.fromRGBO(0, 0, 0, 1),
                         //fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        fontFamily: 'NotoSansThai'))
-                //TextFormField(initialValue: User.userData["username_member"]),
-                ),
+                        fontFamily: 'NotoSansThai'))*/
+                  TextFormField(
+                      enabled: false,
+                      obscureText: true,
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                      initialValue: User.userData["username_member"]),
+            ),
             SizedBox(
               height: 10,
             ),

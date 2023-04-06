@@ -100,7 +100,7 @@ class _DateScreenState extends State<DateScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+        title: Text('แอปพลิเคชันค้นหาคลินิก',
             style: TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
                 fontSize: 25,
@@ -266,7 +266,8 @@ class _DateScreenState extends State<DateScreen> {
                                                           fontFamily:
                                                               'NotoSansThai')),
                                                   Container(
-                                                    width: 130,
+                                                    width: 100,
+                                                    // color: Colors.black12,
                                                     child: Text(
                                                         "${_data["data"][i]["detail_appoint"]}",
                                                         overflow: TextOverflow
@@ -288,9 +289,9 @@ class _DateScreenState extends State<DateScreen> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            right: 0, left: 0),
+                                            right: 10, left: 0),
                                         child: Container(
-                                          // color: Colors.black,
+                                          //color: Colors.black,
                                           child: Column(children: [
                                             TextButton(
                                               onPressed: () {

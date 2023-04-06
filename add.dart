@@ -15,8 +15,10 @@ class AddClinicuser {
 }
 
 class Config {
-  static var url = "https://dead-pear-tortoise-vest.cyclic.app";
-  static var urlUploadImage = "https://dead-pear-tortoise-vest.cyclic.app";
+  static var url = "https://misty-blue-lobster.cyclic.app";
+  static var urlUploadImage = "https://encouraging-galoshes-crow.cyclic.app";
+  //static var url = "http://192.168.0.206:3333"; ลองใหม่ๆๆ
+  //static var urlUploadImage = "http://192.168.0.206:5000";
   //static var url = "http://192.168.20.216:3333";
   //static var urlUploadImage = "http://192.168.20.216:5000";
 }

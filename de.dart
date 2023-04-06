@@ -547,8 +547,6 @@ class _Add2ScreenState extends State<Add2Screen> {
                 //title: const Text('ประเภทคลินิก  :'),
                 title: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
-                    isExpanded: false,
-                    isDense: false,
                     // Must be one of items.value.
                     value: widget.data["type_waiting"].toString(),
                     hint: const Text('-----',
@@ -695,7 +693,7 @@ class _Add2ScreenState extends State<Add2Screen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 10, 81, 3),
         centerTitle: true,
-        title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+        title: Text('แอปพลิเคชันค้นหาคลินิก',
             style: TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
                 fontSize: 25,

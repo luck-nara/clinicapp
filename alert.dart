@@ -53,7 +53,7 @@ class _AlertScreenState extends State<AlertScreen> {
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 10, 81, 3),
           centerTitle: true,
-          title: Text('แอปพลิเคชั่นค้นหาคลินิก',
+          title: Text('แอปพลิเคชันค้นหาคลินิก',
               style: TextStyle(
                   color: Color.fromRGBO(255, 255, 255, 1),
                   fontSize: 25,
@@ -124,7 +124,7 @@ class _AlertScreenState extends State<AlertScreen> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                                 color: Color.fromARGB(
-                                                    255, 255, 255, 255),
+                                                    255, 162, 162, 162),
                                                 borderRadius:
                                                     BorderRadius.circular(5)),
                                             child: Row(
@@ -157,11 +157,11 @@ class _AlertScreenState extends State<AlertScreen> {
                                                                         FontWeight
                                                                             .bold,
                                                                     color: Color
-                                                                        .fromRGBO(
+                                                                        .fromARGB(
+                                                                            255,
                                                                             0,
                                                                             0,
-                                                                            0,
-                                                                            1),
+                                                                            0),
                                                                     fontFamily:
                                                                         'NotoSansThai')),
                                                             Text(
@@ -270,10 +270,27 @@ class _AlertScreenState extends State<AlertScreen> {
                                             Container(
                                               width: 360,
                                               decoration: BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 255, 0, 0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Color.fromRGBO(
+                                                        251, 182, 6, 1),
+                                                    Color.fromRGBO(
+                                                        9, 219, 93, 0.737),
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Color.fromARGB(
+                                                        31, 253, 9, 9),
+                                                    offset: Offset(5, 5),
+                                                    blurRadius: 0,
+                                                  )
+                                                ],
+                                              ),
                                               child: Row(
                                                 children: [
                                                   SizedBox(
